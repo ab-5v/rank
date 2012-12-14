@@ -1,18 +1,14 @@
 {
-    "name": "fac-api",
+    "name": "Factorial",
     "version": "0.1.0",
-    "description": "API for Factorial",
-    "dependencies": {
-        "connect": "*",
-        "connect-api": "0.1.4",
-        "mongodb": "*"
-    },
+    "description": "Factor based ranking system",
+    "dependencies": {},
     "devDependencies": {
         "request": "*",
-        "should": "*",
+        "expect.js": "*",
         "mocha": "*"
     },
-    "main": "api",
+    "main": "lib/factorial",
     "engines": { "node": ">= 0.8.0" },
     "private": true
 }
