@@ -7,6 +7,6 @@ node_modules:
 	npm install
 
 test:
-	$(NPM_BIN)/mocha  --reporter dot $(TESTS)
+	@$(NPM_BIN)/mocha  --reporter dot $(TESTS)
 
 .PHONY: test
