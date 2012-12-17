@@ -3,8 +3,9 @@ Factorial
 
 ## Api
 
-    var factorial = require('factorail');
+### factorial
 
+    var factorial = require('factorial');
 
 Сначала нужно добавить факторы в систему
 
@@ -14,8 +15,42 @@ Factorial
 
 Затем объявить формулу и указать, какие факторы она будет использовать
 
-    factorial.formula('forname', [facname1, facname2, facname3])
+    factorial.formula('forname', [facname1, facname2, facname3]);
 
 Затем формулу можно использовать
 
-    factorial.run('forname', data, conditions)
+    var sorted = factorial.run('forname', data, conditions);
+
+
+### Factor
+
+Факторы принимают на вход массив с данными и объект с условиями. Бывает три типа фаторов:
+
+* фильтрующий — возвращает урезанный массив с данными
+* сортирующий — сортирует входные данные исходя из условий
+* бинарыный — для каждого элемента из массива с данными возвращает либо 1 либо 0
+
+Сортирующий и бинарный факторы должны возвращать ответ в следующем виде:
+
+    // всего в массиве 5 элементов
+    [3,4,2,1,0]     // сортирующий
+    [0,0,4,4,0]     // бинарный
+
+для этого есть специальных хелпер:
+
+    Factor.rank(original, sorted, id);
+    // original — оригинальный массив
+    // sorted — отсортированный или отфильтрованный массив
+    // id — имя уникального для каждого элемента массива ключа
+
+Создание фатора:
+
+    var Factor = require('factorial').Factor;
+
+    Factor.create({
+        name: 'facname',                        // обязательный параметр
+        type: Factor.TYPES.BINARY               // || RANK || FILTER
+        exec: function(data, conditions) {}     // вычисление фактора
+    });
+
+
