@@ -3,23 +3,23 @@ Factorial
 
 ## Api
 
-### factorial
+### rAnk
 
-    var factorial = require('factorial');
+    var rAnk = require('rAnk');
 
 Сначала нужно добавить факторы в систему
 
-    factorial.factor('./some/path');            // подгружается указанный файл и из него извлекаются факторы
-    factorial.factor(f1, f2, f3);               // факторы через запятую
-    factorial.factor([f1, f2, f3]);             // массив факторов
+    rAnk.factor('./some/path');            // подгружается указанный файл и из него извлекаются факторы
+    rAnk.factor(f1, f2, f3);               // факторы через запятую
+    rAnk.factor([f1, f2, f3]);             // массив факторов
 
 Затем объявить формулу и указать, какие факторы она будет использовать
 
-    factorial.formula('forname', [facname1, facname2, facname3]);
+    rAnk.formula('forname', [facname1, facname2, facname3]);
 
 Затем формулу можно использовать
 
-    var sorted = factorial.run('forname', data, conditions);
+    var sorted = rAnk.run('forname', data, conditions);
 
 
 ### Factor
@@ -45,7 +45,7 @@ Factorial
 
 Создание фатора:
 
-    var Factor = require('factorial').Factor;
+    var Factor = require('rAnk').Factor;
 
     Factor.create({
         name: 'facname',                        // обязательный параметр

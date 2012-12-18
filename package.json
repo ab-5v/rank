@@ -1,5 +1,5 @@
 {
-    "name": "Factorial",
+    "name": "rAnk",
     "version": "0.1.0",
     "description": "Factor based ranking system",
     "dependencies": {},
@@ -8,7 +8,7 @@
         "expect.js": "*",
         "mocha": "*"
     },
-    "main": "lib/factorial",
+    "main": "lib/rAnk",
     "engines": { "node": ">= 0.8.0" },
     "private": true
 }
