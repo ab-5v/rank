@@ -7,6 +7,16 @@ node_modules:
 	npm install
 
 test:
-	@$(NPM_BIN)/mocha  --reporter dot $(TESTS)
+	@NODE_ENV=test $(NPM_BIN)/mocha --reporter dot $(TESTS)
 
-.PHONY: test
+test-cov: lib-cov
+	@COVERAGE=1 $(NPM_BIN)/mocha --reporter html-cov $(TESTS) > coverage.html
+
+lib-cov: clean-cov
+	@jscoverage --encoding=utf8 --no-highlight lib lib-cov
+
+clean-cov:
+	@rm -rf lib-cov coverage.html
+
+
+.PHONY: test test-cov clean-cov

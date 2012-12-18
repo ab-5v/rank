@@ -1,5 +1,7 @@
 var expect = require('expect.js');
-var factorial = require('../../lib/factorial');
+var factorial = process.env.COVERAGE ?
+    require('../../lib-cov/factorial.js') :
+    require('../../lib/factorial.js');
 
 describe('factorial', function() {
 

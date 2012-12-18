@@ -1,7 +1,8 @@
 var expect = require('expect.js');
 var vars = require('../../lib/vars.js');
-var Formula = require('../../lib/formula');
-
+var Formula = process.env.COVERAGE ?
+    require('../../lib-cov/formula.js') :
+    require('../../lib/formula.js');
 
 describe('formula', function() {
 
