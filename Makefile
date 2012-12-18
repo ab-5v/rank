@@ -10,7 +10,7 @@ test:
 	@NODE_ENV=test $(NPM_BIN)/mocha --reporter dot $(TESTS)
 
 test-cov: lib-cov
-	@COVERAGE=1 $(NPM_BIN)/mocha --reporter html-cov $(TESTS) > coverage.html
+	@COVERAGE=1 $(NPM_BIN)/mocha --reporter html-cov $(TESTS) > coverage.html || exit 0
 
 lib-cov: clean-cov
 	@jscoverage --encoding=utf8 --no-highlight lib lib-cov
