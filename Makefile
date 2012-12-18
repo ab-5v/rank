@@ -7,7 +7,7 @@ node_modules:
 	npm install
 
 test:
-	@NODE_ENV=test $(NPM_BIN)/mocha --reporter dot $(TESTS)
+	@NODE_ENV=test $(NPM_BIN)/mocha --reporter spec $(TESTS)
 
 test-cov: lib-cov
 	@COVERAGE=1 $(NPM_BIN)/mocha --reporter html-cov $(TESTS) > coverage.html || exit 0
