@@ -51,13 +51,21 @@ describe('factor', function() {
             }
         });
 
+        this.lt5FactorPlain = new Factor({
+            name: 'only odd',
+            type: vars.FACTORTYPE.FILTER,
+            run: function(data) {
+                return data.filter(function(item) {
+                    return item < 5;
+                });
+            }
+        });
     });
 
     describe('constructor', function() {
 
         it('should set defaults', function() {
-            var factor = new Factor({name: '1', run: function() {}});
-            expect(factor.name).to.be('1');
+            var factor = new Factor({run: function() {}});
             expect(factor.type).to.be(vars.FACTORTYPE.RANK);
             expect(factor.run).to.be.a(Function);
             expect(factor.key).to.be.a(Function);
@@ -68,20 +76,20 @@ describe('factor', function() {
             var run = function() {};
 
             var factor = new Factor({
-                name: '123',
                 type: vars.FACTORTYPE.BINARY,
                 run: run,
                 key: key
             });
 
-            expect(factor.name).to.be('123');
             expect(factor.type).to.be(vars.FACTORTYPE.BINARY);
             expect(factor.run).to.be(run);
             expect(factor.key).to.be(key);
         });
 
-        it('TODO: should throw on empty run', function() {});
-        it('TODO: should throw on empty name', function() {});
+        it('should throw on empty run', function() {
+            var factor = new Factor({});
+            expect(function() { factor.exec(); }).to.throwError();
+        });
 
     });
 
@@ -110,7 +118,11 @@ describe('factor', function() {
         });
 
         it('should pass by filters', function() {
-            expect(this.gt3FactorPlain.exec(this.dataPlain)).to.eql([4]);
+            expect(this.gt3FactorPlain.exec(this.dataPlain)).to.eql([0, -1, -1, -1]);
+        });
+
+        it('should return [] when nothing were filtered', function() {
+            expect(this.lt5FactorPlain.exec(this.dataPlain)).to.eql([]);
         });
 
     });
