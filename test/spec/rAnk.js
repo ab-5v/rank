@@ -119,4 +119,22 @@ describe('rAnk', function() {
 
     });
 
+    describe('formula', function() {
+
+        it('should add formula', function() {
+            rAnk.formula('some', [new Factor({run: function(data) {return data.sort()}})])
+            expect(rAnk._formula.some).to.be.ok();
+        });
+
+    });
+
+    describe('run', function() {
+
+        it('should run formula', function() {
+            rAnk.formula('some', [new Factor({run: function(data) {return data.sort()}}), new Factor({run: function(data) {return data.sort();}})])
+            expect(rAnk.run('some', [2,1,3], {})).to.eql([1,2,3]);
+        });
+
+    });
+
 });
