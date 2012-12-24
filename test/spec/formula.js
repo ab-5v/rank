@@ -57,5 +57,11 @@ describe('formula', function() {
             expect(formula.compile([{a:1},{a:2},{a:3},{a:4}], [-1,5,6,-1])).to.eql([{a:3},{a:2}]);
         });
 
+        it('should return different values on equal weights', function() {
+            var formula = new Formula([]);
+
+            expect(formula.compile([1,2,3,4], [-1,5,5,-1])).to.eql([2,3]);
+        });
+
     });
 });
