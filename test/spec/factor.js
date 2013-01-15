@@ -66,33 +66,38 @@ describe('factor', function() {
 
     describe('distribution', function() {
 
-        it('should properly distribute rank', function() {
+        it('should properly distribute rank', function(done) {
             this.factors[0].exec(this.dataPlain).then(function(data) {
                 expect(data).to.eql([0,3,1,2]);
+                done();
             });
         });
 
-        it('should properly distribute rank on objects', function() {
+        it('should properly distribute rank on objects', function(done) {
             this.factors[1].exec(this.dataObj).then(function(data) {
                 expect(data).to.eql([0,3,1,2]);
+                done();
             });
         });
 
-        it('should append maximum rank to binary trues', function() {
+        it('should append maximum rank to binary trues', function(done) {
             this.factors[2].exec(this.dataPlain).then(function(data) {
                 expect(data).to.eql([0,0,0,3]);
+                done();
             });
         });
 
-        it('should pass by filters', function() {
+        it('should pass by filters', function(done) {
             this.factors[3].exec(this.dataPlain).then(function(data) {
                 expect(data).to.eql([0,-1,-1,-1]);
+                done();
             });
         });
 
-        it('should return [] when nothing were filtered', function() {
+        it('should return [] when nothing were filtered', function(done) {
             this.factors[4].exec(this.dataPlain).then(function(data) {
                 expect(data).to.eql([]);
+                done();
             });
         });
 

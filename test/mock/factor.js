@@ -51,3 +51,5 @@ var data = {
 module.exports = function(name) {
     return new Factor( data[name] );
 };
+
+module.exports.data = data;
