@@ -132,7 +132,9 @@ describe('rAnk', function() {
 
         it('should run formula', function() {
             rAnk.formula('some', [new Factor({run: function(data) {return data.sort()}}), new Factor({run: function(data) {return data.sort();}})])
-            expect(rAnk.run('some', [2,1,3], {})).to.eql([1,2,3]);
+            rAnk.run('some', [2,1,3], {}).then(function(data) {
+                expect(data).to.eql([1,2,3]);
+            });
         });
 
     });

@@ -106,23 +106,33 @@ describe('factor', function() {
     describe('distribution', function() {
 
         it('should properly distribute rank', function() {
-            expect(this.sortFactorPlain.exec(this.dataPlain)).to.eql([0,3,1,2]);
+            this.sortFactorPlain.exec(this.dataPlain).then(function(data) {
+                expect(data).to.eql([0,3,1,2]);
+            });
         });
 
         it('should properly distribute rank on objects', function() {
-            expect(this.sortFactorObj.exec(this.dataObj)).to.eql([0,3,1,2]);
+            this.sortFactorObj.exec(this.dataObj).then(function(data) {
+                expect(data).to.eql([0,3,1,2]);
+            });
         });
 
         it('should append maximum rank to binary trues', function() {
-            expect(this.oddFactorPlain.exec(this.dataPlain)).to.eql([0,0,0,3]);
+            this.oddFactorPlain.exec(this.dataPlain).then(function(data) {
+                expect(data).to.eql([0,0,0,3]);
+            });
         });
 
         it('should pass by filters', function() {
-            expect(this.gt3FactorPlain.exec(this.dataPlain)).to.eql([0, -1, -1, -1]);
+            this.gt3FactorPlain.exec(this.dataPlain).then(function(data) {
+                expect(data).to.eql([0,-1,-1,-1]);
+            });
         });
 
         it('should return [] when nothing were filtered', function() {
-            expect(this.lt5FactorPlain.exec(this.dataPlain)).to.eql([]);
+            this.lt5FactorPlain.exec(this.dataPlain).then(function(data) {
+                expect(data).to.eql([]);
+            });
         });
 
     });
