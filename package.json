@@ -2,7 +2,9 @@
     "name": "rAnk",
     "version": "0.1.0",
     "description": "Factor based ranking system",
-    "dependencies": {},
+    "dependencies": {
+        "p0": "*"
+    },
     "devDependencies": {
         "request": "*",
         "expect.js": "*",
