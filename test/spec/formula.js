@@ -17,6 +17,17 @@ describe('formula', function() {
             var formula = new Formula([1,2,3]);
             expect(formula.factors).to.eql([1,2,3]);
         });
+
+        it('should save weights', function() {
+            var formula = new Formula([1,2,3], [1,0,1]);
+            expect(formula.weights).to.eql([1,0,1]);
+        });
+
+        it('should use default weights', function() {
+            var formula = new Formula([1,2,3]);
+            expect(formula.weights).to.eql([1,1,1]);
+        });
+
     });
 
     describe('stat', function() {
@@ -49,9 +60,16 @@ describe('formula', function() {
     describe('merge', function() {
 
         it('should summary all the ranks', function() {
-            var formula = new Formula([]);
+            var formula = new Formula([{}, {}, {}]);
             expect(formula.merge([[1,2,3,0], [-1,0,0,-1], [0,3,3,0]]))
                 .to.eql([-1,5,6,-1]);
+        });
+
+        it('should use weights', function() {
+            var formula = new Formula([{},{},{}], [1, 0.5, 0]);
+
+            expect(formula.merge([[-1, 0, -1, 0], [1, 2, 4, 5], [4, 6, 7, 8]]))
+                .to.eql([-1, 1, -1, 2.5]);
         });
 
     });

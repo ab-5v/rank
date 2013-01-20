@@ -122,7 +122,7 @@ describe('rAnk', function() {
     describe('formula', function() {
 
         it('should add formula', function() {
-            rAnk.formula('some', [new Factor({run: function(data) {return data.sort()}})])
+            rAnk.formula('some', [{}, {}])
             expect(rAnk._formula.some).to.be.ok();
         });
 
