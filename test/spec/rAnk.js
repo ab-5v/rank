@@ -122,19 +122,33 @@ describe('rAnk', function() {
     describe('formula', function() {
 
         it('should add formula', function() {
-            rAnk.formula('some', [{}, {}])
-            expect(rAnk._formula.some).to.be.ok();
+            rAnk.formula('some1', [{}, {}])
+            expect(rAnk._formula.some1).to.be.ok();
         });
 
     });
 
     describe('run', function() {
 
+        beforeEach(function() {
+            var simpleSort = {run: function(data) { return data.sort(); }};
+            rAnk.formula('some', [
+                { run: function(data) { return data.sort(); } },
+                { run: function(data) { return data.sort().reverse(); } }
+            ]);
+        });
+
         it('should run formula', function() {
-            rAnk.formula('some', [new Factor({run: function(data) {return data.sort()}}), new Factor({run: function(data) {return data.sort();}})])
             rAnk.run('some', [2,1,3], {}).then(function(data) {
+                expect(data.result).to.eql([2,1,3]);
+                expect(data.stat).to.eql([[ 1, 1 ], [ 2, 0 ], [ 0, 2 ]]);
+            });
+        });
+
+        it('should run formula with weights', function() {
+            rAnk.run('some', [2,1,3], {}, [1, 0.5]).then(function(data) {
                 expect(data.result).to.eql([1,2,3]);
-                expect(data.stat).to.eql([[ 2, 2 ], [ 1, 1 ], [ 0, 0 ]]);
+                expect(data.stat).to.eql([[ 2, 0 ], [ 1, 1 ], [ 0, 2 ]]);
             });
         });
 

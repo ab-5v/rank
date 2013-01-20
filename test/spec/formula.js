@@ -18,16 +18,6 @@ describe('formula', function() {
             expect(formula.factors).to.eql([1,2,3]);
         });
 
-        it('should save weights', function() {
-            var formula = new Formula([1,2,3], [1,0,1]);
-            expect(formula.weights).to.eql([1,0,1]);
-        });
-
-        it('should use default weights', function() {
-            var formula = new Formula([1,2,3]);
-            expect(formula.weights).to.eql([1,1,1]);
-        });
-
     });
 
     describe('stat', function() {
@@ -61,14 +51,14 @@ describe('formula', function() {
 
         it('should summary all the ranks', function() {
             var formula = new Formula([{}, {}, {}]);
-            expect(formula.merge([[1,2,3,0], [-1,0,0,-1], [0,3,3,0]]))
+            expect(formula.merge([[1,2,3,0], [-1,0,0,-1], [0,3,3,0]], [1,1,1]))
                 .to.eql([-1,5,6,-1]);
         });
 
         it('should use weights', function() {
-            var formula = new Formula([{},{},{}], [1, 0.5, 0]);
+            var formula = new Formula([{},{},{}]);
 
-            expect(formula.merge([[-1, 0, -1, 0], [1, 2, 4, 5], [4, 6, 7, 8]]))
+            expect(formula.merge([[-1, 0, -1, 0], [1, 2, 4, 5], [4, 6, 7, 8]], [1, 0.5, 0]))
                 .to.eql([-1, 1, -1, 2.5]);
         });
 
@@ -90,7 +80,7 @@ describe('formula', function() {
                 .to.eql({ result: [{a:3},{a:2}], stat: [[3], [2]]});
         });
 
-        it('should return different values on equal weights', function() {
+        it('should return different values on equal ranks', function() {
             var formula = new Formula([]);
 
             expect(formula.compile([1,2,3,4], [-1,5,5,-1], [[1], [2], [3], [4]]))
