@@ -1,5 +1,5 @@
+require('../../lib/vars');
 var expect = require('expect.js');
-var vars = require('../../lib/vars.js');
 var Factor = require('../../lib/factor.js');
 
 var Formula = process.env.COVERAGE ?
@@ -9,9 +9,6 @@ var Formula = process.env.COVERAGE ?
 describe('formula', function() {
 
     describe('constructor', function() {
-        var fRank = [{type: vars.FACTORTYPE.RANK}, {type: vars.FACTORTYPE.RANK}];
-        var fBina = [{type: vars.FACTORTYPE.BINARY}, {type: vars.FACTORTYPE.BINARY}];
-        var fFilt = [{type: vars.FACTORTYPE.FILTER}, {type: vars.FACTORTYPE.FILTER}];
 
         it('should save factors', function() {
             var formula = new Formula([1,2,3]);

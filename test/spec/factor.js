@@ -1,4 +1,5 @@
-var vars = require('../../lib/vars.js');
+require('../../lib/vars');
+
 var expect = require('expect.js');
 
 var Factor = process.env.COVERAGE ?
@@ -29,7 +30,7 @@ describe('factor', function() {
 
         it('should set defaults', function() {
             var factor = new Factor({run: function() {}});
-            expect(factor.type).to.be(vars.FACTORTYPE.RANK);
+            expect(factor.type).to.be(F_SORT);
             expect(factor.run).to.be.a(Function);
             expect(factor.key).to.be.a(Function);
         });
@@ -39,12 +40,12 @@ describe('factor', function() {
             var run = function() {};
 
             var factor = new Factor({
-                type: vars.FACTORTYPE.BINARY,
+                type: F_BINARY,
                 run: run,
                 key: key
             });
 
-            expect(factor.type).to.be(vars.FACTORTYPE.BINARY);
+            expect(factor.type).to.be(F_BINARY);
             expect(factor.run).to.be(run);
             expect(factor.key).to.be(key);
         });

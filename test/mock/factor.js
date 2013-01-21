@@ -1,4 +1,3 @@
-var vars = require('../../lib/vars.js');
 var Factor = require('../../lib/factor.js');
 
 var data = {
@@ -21,7 +20,7 @@ var data = {
     },
 
     'only odd': {
-        type: vars.FACTORTYPE.BINARY,
+        type: F_BINARY,
         run: function(data) {
             return data.map(function(item) {
                 return item % 2 ? true : false;
@@ -30,7 +29,7 @@ var data = {
     },
 
     'gt3': {
-        type: vars.FACTORTYPE.FILTER,
+        type: F_FILTER,
         run: function(data) {
             return data.filter(function(item) {
                 return item > 3;
@@ -39,7 +38,7 @@ var data = {
     },
 
     'lt5': {
-        type: vars.FACTORTYPE.FILTER,
+        type: F_FILTER,
         run: function(data) {
             return data.filter(function(item) {
                 return item < 5;
@@ -48,7 +47,7 @@ var data = {
     },
 
     'mmSimple': {
-        type: vars.FACTORTYPE.MINMAX,
+        type: F_MINMAX,
         run: function(data) {
             return data.map(function(item) {
                 return item;
@@ -57,7 +56,7 @@ var data = {
     },
 
     'mmObj': {
-        type: vars.FACTORTYPE.MINMAX,
+        type: F_MINMAX,
         run: function(data) {
             return data.map(function(item) {
                 return item.i;
