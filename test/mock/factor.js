@@ -45,6 +45,24 @@ var data = {
                 return item < 5;
             });
         }
+    },
+
+    'mmSimple': {
+        type: vars.FACTORTYPE.MINMAX,
+        run: function(data) {
+            return data.map(function(item) {
+                return item;
+            });
+        }
+    },
+
+    'mmObj': {
+        type: vars.FACTORTYPE.MINMAX,
+        run: function(data) {
+            return data.map(function(item) {
+                return item.i;
+            });
+        }
     }
 };
 

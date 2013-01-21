@@ -18,7 +18,9 @@ describe('factor', function() {
             mock('sort obj'),
             mock('only odd'),
             mock('gt3'),
-            mock('lt5')
+            mock('lt5'),
+            mock('mmSimple'),
+            mock('mmObj')
         ];
 
     });
@@ -97,6 +99,20 @@ describe('factor', function() {
         it('should return [] when nothing were filtered', function(done) {
             this.factors[4].exec(this.dataPlain).then(function(data) {
                 expect(data).to.eql([]);
+                done();
+            });
+        });
+
+        it('should distribute simple minmax', function(done) {
+            this.factors[5].exec(this.dataPlain).then(function(data) {
+                expect(data).to.eql([ 3, 0, 1.5, 0.75 ]);
+                done();
+            });
+        });
+
+        it('should distribute obj minmax', function(done) {
+            this.factors[6].exec(this.dataObj).then(function(data) {
+                expect(data).to.eql([ 3, 0, 1.5, 0.75 ]);
                 done();
             });
         });
