@@ -23,5 +23,5 @@ console.log('Data:' + list(data));
 rAnk.run('sole3', data, {})
     .then(function(sorted) {
         // list sorted data
-        console.log('Sorted:' + list(sorted));
+        console.log('Sorted:' + list(sorted.result));
     });
