@@ -20,8 +20,10 @@ describe('factor', function() {
             mock('only odd'),
             mock('gt3'),
             mock('lt5'),
-            mock('mmSimple'),
-            mock('mmObj')
+            mock('minmaxSimple'),
+            mock('minmaxObj'),
+            mock('maxminSimple'),
+            mock('maxminObj')
         ];
 
     });
@@ -69,23 +71,23 @@ describe('factor', function() {
 
     describe('distribution', function() {
 
-        it('should properly distribute rank', function(done) {
+        it('should properly distribute sort', function(done) {
             this.factors[0].exec(this.dataPlain).then(function(data) {
-                expect(data).to.eql([0,3,1,2]);
+                expect(data).to.eql([1,4,2,3]);
                 done();
             });
         });
 
-        it('should properly distribute rank on objects', function(done) {
+        it('should properly distribute sort on objects', function(done) {
             this.factors[1].exec(this.dataObj).then(function(data) {
-                expect(data).to.eql([0,3,1,2]);
+                expect(data).to.eql([1,4,2,3]);
                 done();
             });
         });
 
         it('should append maximum rank to binary trues', function(done) {
             this.factors[2].exec(this.dataPlain).then(function(data) {
-                expect(data).to.eql([0,0,0,3]);
+                expect(data).to.eql([0,0,0,4]);
                 done();
             });
         });
@@ -106,14 +108,28 @@ describe('factor', function() {
 
         it('should distribute simple minmax', function(done) {
             this.factors[5].exec(this.dataPlain).then(function(data) {
-                expect(data).to.eql([ 3, 0, 1.5, 0.75 ]);
+                expect(data).to.eql([ 4, 1, 2.5, 1.75 ]);
                 done();
             });
         });
 
         it('should distribute obj minmax', function(done) {
             this.factors[6].exec(this.dataObj).then(function(data) {
-                expect(data).to.eql([ 3, 0, 1.5, 0.75 ]);
+                expect(data).to.eql([ 4, 1, 2.5, 1.75 ]);
+                done();
+            });
+        });
+
+        it('should distribute simple maxmin', function(done) {
+            this.factors[7].exec(this.dataPlain).then(function(data) {
+                expect(data).to.eql([ 1, 4, 2.5, 3.25 ]);
+                done();
+            });
+        });
+
+        it('should distribute obj maxmin', function(done) {
+            this.factors[8].exec(this.dataObj).then(function(data) {
+                expect(data).to.eql([ 1, 4, 2.5, 3.25 ]);
                 done();
             });
         });

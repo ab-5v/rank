@@ -141,14 +141,14 @@ describe('rAnk', function() {
         it('should run formula', function() {
             rAnk.run('some', [2,1,3], {}).then(function(data) {
                 expect(data.result).to.eql([2,1,3]);
-                expect(data.stat).to.eql([[ 1, 1 ], [ 2, 0 ], [ 0, 2 ]]);
+                expect(data.stat).to.eql([[ 2, 2 ], [ 3, 1 ], [ 1, 3 ]]);
             });
         });
 
         it('should run formula with weights', function() {
             rAnk.run('some', [2,1,3], {}, [1, 0.5]).then(function(data) {
                 expect(data.result).to.eql([1,2,3]);
-                expect(data.stat).to.eql([[ 2, 0 ], [ 1, 1 ], [ 0, 2 ]]);
+                expect(data.stat).to.eql([[ 3, 1 ], [ 2, 2 ], [ 1, 3 ]]);
             });
         });
 
