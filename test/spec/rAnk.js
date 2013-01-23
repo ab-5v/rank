@@ -1,5 +1,9 @@
 var expect = require('expect.js');
 var Factor = require('../../lib/factor.js');
+
+var DATA = require('../mock/data');
+var FACT = require('../mock/factor');
+
 var rAnk = process.env.COVERAGE ?
     require('../../lib-cov/rAnk.js') :
     require('../../lib/rAnk.js');
@@ -149,6 +153,20 @@ describe('rAnk', function() {
             rAnk.run('some', [2,1,3], {}, [1, 0.5]).then(function(data) {
                 expect(data.result).to.eql([1,2,3]);
                 expect(data.stat).to.eql([[ 3, 1 ], [ 2, 2 ], [ 1, 3 ]]);
+            });
+        });
+
+        it('should run mm formula', function() {
+            rAnk.formula('mm1', [FACT('minmaxObj'), FACT('minmaxObjJ')]);
+            rAnk.run('mm1', DATA['set1']).then(function(data) {
+                expect(data.result).to.eql([
+                    { k: 6, i: 2, j: 4 },
+                    { k: 5, i: 3, j: 2 },
+                    { k: 4, i: 3, j: 1 },
+                    { k: 3, i: 2, j: 1 },
+                    { k: 2, i: 0, j: 2 },
+                    { k: 1, i: 1, j: 0 }
+                ]);
             });
         });
 

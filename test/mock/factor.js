@@ -64,6 +64,14 @@ var data = {
         }
     },
 
+    'minmaxObjJ': {
+        type: F_MINMAX,
+        run: function(data) {
+            return data.map(function(item) {
+                return item.j;
+            });
+        }
+    },
     'maxminSimple': {
         type: F_MAXMIN,
         run: function(data) {
