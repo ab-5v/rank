@@ -43,4 +43,9 @@ describe('math', function() {
         var f = math.linear(3,3,1,1);
         expect( f(2) ).to.be(2);
     });
+
+    it('should return cardinal of array', function() {
+        expect( math.cardinal([1,2,3,1,2,3,3,4,5]) ).to.be(5);
+    });
+
 });
