@@ -122,6 +122,10 @@ describe('math', function() {
             expect( math.step([]) ).to.be(0);
         });
 
+        it('should retur 0 for array with one element', function() {
+            expect( math.step([1]) ).to.be(0);
+        });
+
     });
 
 });
