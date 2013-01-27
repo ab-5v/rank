@@ -55,7 +55,7 @@ var data = {
         }
     },
 
-    'minmaxObj': {
+    'minmaxObjI': {
         type: F_MINMAX,
         run: function(data) {
             return data.map(function(item) {
@@ -72,20 +72,12 @@ var data = {
             });
         }
     },
+
     'maxminSimple': {
         type: F_MAXMIN,
         run: function(data) {
             return data.map(function(item) {
                 return item;
-            });
-        }
-    },
-
-    'maxminObj': {
-        type: F_MAXMIN,
-        run: function(data) {
-            return data.map(function(item) {
-                return item.i;
             });
         }
     }

@@ -157,7 +157,7 @@ describe('rAnk', function() {
         });
 
         it('should run mm formula', function() {
-            rAnk.formula('mm1', [FACT('minmaxObj'), FACT('minmaxObjJ')]);
+            rAnk.formula('mm1', [FACT('minmaxObjI'), FACT('minmaxObjJ')]);
             rAnk.run('mm1', DATA['set1']).then(function(data) {
                 expect(data.result).to.eql([
                     { k: 6, i: 2, j: 4 },

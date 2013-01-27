@@ -1,6 +1,5 @@
 require('../../lib/vars');
 var expect = require('expect.js');
-var Factor = require('../../lib/factor.js');
 
 var Formula = process.env.COVERAGE ?
     require('../../lib-cov/formula.js') :
@@ -15,6 +14,16 @@ describe('formula', function() {
             expect(formula.factors).to.eql([1,2,3]);
         });
 
+    });
+
+    describe('distribution', function() {
+    });
+
+    describe('limits', function() {
+        it('should set limits for filter factor', function() {});
+        it('should set limits for binary factor', function() {});
+        it('should set limits for sort factor', function() {});
+        it('should set limits for minmax factor', function() {});
     });
 
     describe('stat', function() {
