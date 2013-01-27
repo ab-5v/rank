@@ -39,6 +39,17 @@ describe('formula', function() {
 
     });
 
+    describe('weight', function() {
+
+        it('should calculate partially defined weight', function() {
+            var formula = new Formula([{}, {}, {}]);
+
+            expect( formula.weight([0.5, 0.2]) )
+                .to.eql([0.5, 0.2, 1]);
+        });
+
+    });
+
     describe('exec', function() {
 
         it('should fit ranks in array', function() {
