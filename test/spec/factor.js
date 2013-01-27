@@ -186,6 +186,17 @@ describe('factor', function() {
                     .to.eql( [ 8, 12, 14, 6, 10, 14 ] );
             });
         });
+
+        it('should distribute minmax to 0-s on the equal values array', function() {
+            var data = [1, 1, 1, 1, 1, 1];
+            var factor = this.factors[5];
+
+            factor.exec( data ).then(function(sorting) {
+
+                expect( factor.distribution({min: 1, max: 4}, data, sorting) )
+                    .to.eql( [ 0, 0, 0, 0, 0, 0 ] );
+            });
+        });
     });
 
 });
