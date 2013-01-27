@@ -24,6 +24,7 @@ describe('formula', function() {
         it('should set limits for binary factor', function() {});
         it('should set limits for sort factor', function() {});
         it('should set limits for minmax factor', function() {});
+        it('should increase max, when min=max', function() {});
     });
 
     describe('stat', function() {
