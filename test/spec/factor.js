@@ -73,8 +73,15 @@ describe('factor', function() {
         it('should replace consts with values', function() {
             var factor = new Factor({});
 
-            expect( factor.constants([4, factor.minValue, factor.maxValue, 6, 8, factor.minValue]) )
+            expect( factor.constants([4, factor.minValue, factor.maxValue, 6, 8, factor.minValue], {min: 1, max: 2}) )
                 .to.eql([4, 2, 10, 6, 8, 2]);
+        });
+
+        it('should replace consts to limits in array of consts only', function() {
+            var factor = new Factor({});
+
+            expect( factor.constants([factor.minValue, factor.maxValue, factor.minValue], {min: 1, max: 10}) )
+                .to.eql([1, 10, 1]);
         });
 
     });
