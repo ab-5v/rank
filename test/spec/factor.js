@@ -158,6 +158,27 @@ describe('factor', function() {
             });
         });
 
+        it('should distribute minmax with constatnts', function() {
+            var factor = this.factors[5];
+            var data = [12, 8, factor.minValue, factor.maxValue, 10, factor.minValue];
+
+            factor.exec( data ).then(function(sorting) {
+
+                expect( factor.distribution({min: 6, max: 14}, data, sorting) )
+                    .to.eql( [ 12, 8, 6, 14, 10, 6 ] );
+            });
+        });
+
+        it('should distribute maxmin with constatnts', function() {
+            var factor = this.factors[7];
+            var data = [12, 8, factor.minValue, factor.maxValue, 10, factor.minValue];
+
+            factor.exec( data ).then(function(sorting) {
+
+                expect( factor.distribution({min: 6, max: 14}, data, sorting) )
+                    .to.eql( [ 8, 12, 14, 6, 10, 14 ] );
+            });
+        });
     });
 
 });
