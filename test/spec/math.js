@@ -48,4 +48,16 @@ describe('math', function() {
         expect( math.cardinal([1,2,3,1,2,3,3,4,5]) ).to.be(5);
     });
 
+    it('should return variance of the array', function() {
+        expect( math.variance([1, 3, 5, 7, 14]) ).to.be(20);
+    });
+
+    it('should return standart deviation of the array', function() {
+        expect( math.deviation([1, 3, 5, 7, 14]) ).to.be( Math.sqrt(20) );
+    });
+
+    it('should return step of the even array', function() {
+        expect( math.step([12, 8, 10, 14]) ).to.be(2);
+    });
+
 });

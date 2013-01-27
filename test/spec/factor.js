@@ -68,6 +68,17 @@ describe('factor', function() {
         it('TODO: could modify original data while filtering', function() {});
     });
 
+    describe('constants', function() {
+
+        it('should replace consts with values', function() {
+            var factor = new Factor({});
+
+            expect( factor.constants([4, factor.minValue, factor.maxValue, 6, 8, factor.minValue]) )
+                .to.eql([4, 2, 10, 6, 8, 2]);
+        });
+
+    });
+
     describe('distribution', function() {
 
         it('should properly distribute sort', function() {
