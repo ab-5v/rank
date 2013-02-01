@@ -1,9 +1,9 @@
 {
-    "name": "rAnk",
+    "name": "rank",
     "version": "0.1.0",
     "description": "Factor based ranking system",
     "dependencies": {
-        "p0": "*"
+        "p0": "0.0.4"
     },
     "devDependencies": {
         "request": "*",
@@ -12,5 +12,7 @@
     },
     "main": "lib/rAnk",
     "engines": { "node": ">= 0.8.0" },
-    "private": true
+    "publishConfig": {
+        "registry":"http://npm.yandex-team.ru"
+    }
 }
