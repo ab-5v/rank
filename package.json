@@ -11,8 +11,5 @@
         "mocha": "*"
     },
     "main": "lib/rAnk",
-    "engines": { "node": ">= 0.8.0" },
-    "publishConfig": {
-        "registry":"http://npm.yandex-team.ru"
-    }
+    "engines": { "node": ">= 0.8.0" }
 }
