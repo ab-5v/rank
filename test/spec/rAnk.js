@@ -1,8 +1,4 @@
 var expect = require('expect.js');
-var Factor = require('../../lib/factor.js');
-
-var DATA = require('../mock/data');
-var FACT = require('../mock/factor');
 
 var rAnk = process.env.COVERAGE ?
     require('../../lib-cov/rAnk.js') :
@@ -10,163 +6,73 @@ var rAnk = process.env.COVERAGE ?
 
 describe('rAnk', function() {
 
+    beforeEach(function() {
+        this.rank = rAnk();
+    });
+
+    describe('_init', function() {
+
+        it('should create new formula', function() {
+            expect( this.rank._formula ).to.be.ok();
+        });
+
+        it('should create empty factors array', function() {
+            expect( this.rank._factors ).to.eql([]);
+        });
+
+        it('should create empty data array', function() {
+            expect( this.rank._data ).to.eql([]);
+        });
+
+        it('should create empty weights array', function() {
+            expect( this.rank._weights ).to.eql([]);
+        });
+
+        it('should create empty conditions object', function() {
+            expect( this.rank._conditions ).to.eql({});
+        });
+
+    });
+
     describe('factor', function() {
 
-        var desc1 = {
-            name: 'test1',
-            exec: function() {}
-        };
-        var desc2 = {
-            name: 'test2',
-            exec: function() {}
-        };
+        it('should add one factor', function() {
+            this.rank.factors({});
 
-        beforeEach(function() {
-            rAnk._factor = {};
+            expect( this.rank._factors.length ).to.eql(1);
         });
 
-        describe('by factor', function() {
+        it('should add array of factors', function() {
+            this.rank.factors([{}, {}]);
 
-            it('should return factor by factor', function() {
-                expect(rAnk.factor(new Factor(desc1))).to.be.eql(new Factor(desc1));
-            });
-
-            it('shoult cache factor by factor', function() {
-                rAnk.factor(new Factor(desc1));
-                expect(rAnk._factor).to.be.eql({test1: new Factor(desc1)});
-            });
-
-            it('should return array of factors by array of factors', function() {
-                expect(rAnk.factor([new Factor(desc1), new Factor(desc2)])).to.be.eql([new Factor(desc1), new Factor(desc2)]);
-            });
-
-            it('should cache array of factors by array of factors', function() {
-                rAnk.factor([new Factor(desc1), new Factor(desc2)]);
-                expect(rAnk._factor).to.be.eql({'test1': new Factor(desc1), 'test2': new Factor(desc2)});
-            });
-
-            it('should return array of factors by list of factors', function() {
-                expect(rAnk.factor(new Factor(desc1), new Factor(desc2))).to.be.eql([new Factor(desc1), new Factor(desc2)]);
-            });
-
-            it('should cache array of factors by list of factors', function() {
-                rAnk.factor(new Factor(desc1), new Factor(desc2));
-                expect(rAnk._factor).to.be.eql({'test1': new Factor(desc1), 'test2': new Factor(desc2)});
-            });
-
+            expect( this.rank._factors.length ).to.eql(2);
         });
 
-        describe('by description', function() {
+        it('should append factor', function() {
+            this.rank
+                .factors([{}, {}])
+                .factors({});
 
-            it('should return factor by descrition', function() {
-                expect(rAnk.factor(desc1)).to.be.a(Factor);
-            });
-
-            it('shoult cache factor by description', function() {
-                rAnk.factor(desc1);
-                expect(rAnk._factor).to.be.eql({test1: new Factor(desc1)});
-            });
-
-            it('should return array of factors by array of descriptions', function() {
-                expect(rAnk.factor([desc1, desc2])).to.be.eql([new Factor(desc1), new Factor(desc2)]);
-            });
-
-            it('should cache array of factors by array of descriptions', function() {
-                rAnk.factor([desc1, desc2]);
-                expect(rAnk._factor).to.be.eql({'test1': new Factor(desc1), 'test2': new Factor(desc2)});
-            });
-
-            it('should return array of factors by list of descriptions', function() {
-                expect(rAnk.factor(desc1, desc2)).to.be.eql([new Factor(desc1), new Factor(desc2)]);
-            });
-
-            it('should cache array of factors by list of descriptions', function() {
-                rAnk.factor(desc1, desc2);
-                expect(rAnk._factor).to.be.eql({'test1': new Factor(desc1), 'test2': new Factor(desc2)});
-            });
-
-        });
-
-        describe('by filename', function() {
-
-            it('should return factor by description file', function() {
-                expect(rAnk.factor('./test/fixtures/rAnk.factors.1.js').name).to.be('fix1');
-            });
-
-            it('should return array of factors by array description file', function() {
-                var factors = rAnk.factor('./test/fixtures/rAnk.factors.2.js');
-                expect(factors[0].name).to.be('fix2');
-                expect(factors[1].name).to.be('fix3');
-            });
-
-        });
-
-        describe('by name', function() {
-
-            beforeEach(function() {
-                rAnk.factor(new Factor(desc1), new Factor(desc2));
-            });
-
-            it('should return factor by name', function() {
-                expect(rAnk.factor('test1')).to.be.eql(new Factor(desc1));
-            });
-
-            it('should return array of factors by array of names', function() {
-                expect(rAnk.factor(['test1', 'test2'])).to.be.eql([new Factor(desc1), new Factor(desc2)]);
-            });
-
-            it('should return array of factors by list of names', function() {
-                expect(rAnk.factor('test1', 'test2')).to.be.eql([new Factor(desc1), new Factor(desc2)]);
-            });
-
+            expect( this.rank._factors.length ).to.eql(3);
         });
 
     });
 
-    describe('formula', function() {
+    ['weights', 'data', 'conditions'].forEach(function(name) {
 
-        it('should add formula', function() {
-            rAnk.formula('some1', [{}, {}])
-            expect(rAnk._formula.some1).to.be.ok();
-        });
+        describe(name, function() {
 
-    });
+            it('should add ' + name, function() {
+                this.rank[name]({a: 1});
 
-    describe('run', function() {
-
-        beforeEach(function() {
-            var simpleSort = {run: function(data) { return data.sort(); }};
-            rAnk.formula('some', [
-                { run: function(data) { return data.map(function(a) { return a; }); } },
-                { run: function(data) { return data.map(function(a) { return 4 - a; }); } }
-            ]);
-        });
-
-        it('should run formula', function() {
-            rAnk.run('some', [2,1,3], {}).then(function(data) {
-                expect(data.result).to.eql([2, 1, 3]);
-                expect(data.stat).to.eql([[ 2, 2 ], [ 1, 3 ], [ 3, 1 ]]);
+                expect( this.rank['_' + name] ).to.eql({a: 1});
             });
-        });
 
-        it('should run formula with weights', function() {
-            rAnk.run('some', [2,1,3], {}, [1, 0.5]).then(function(data) {
-                expect(data.result).to.eql([3, 2, 1]);
-                expect(data.stat).to.eql([[ 3, 1 ], [ 2, 2 ], [ 1, 3 ]]);
-            });
-        });
+            it('should overwrite ' + name, function() {
+                this.rank[name]({a: 1});
+                this.rank[name]({a: 2});
 
-        it('should run mm formula', function() {
-            rAnk.formula('mm1', [FACT('minmaxObjI'), FACT('minmaxObjJ')]);
-            rAnk.run('mm1', DATA['set1']).then(function(data) {
-                expect(data.result).to.eql([
-                    { k: 6, i: 2, j: 4 },
-                    { k: 5, i: 3, j: 2 },
-                    { k: 4, i: 3, j: 1 },
-                    { k: 3, i: 2, j: 1 },
-                    { k: 2, i: 0, j: 2 },
-                    { k: 1, i: 1, j: 0 }
-                ]);
+                expect( this.rank['_' + name] ).to.eql({a: 2});
             });
         });
 
