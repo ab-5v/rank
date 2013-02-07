@@ -50,7 +50,7 @@ rAnk
 
     Factor.create({
         name: 'facname',                        // обязательный параметр
-        type: F_BINARY                          // || F_SORT || F_FILTER
+        type: F_BINARY                          // || F_FILTER
         exec: function(data, conditions) {}     // вычисление фактора
     });
 

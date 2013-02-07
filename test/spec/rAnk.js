@@ -137,21 +137,21 @@ describe('rAnk', function() {
         beforeEach(function() {
             var simpleSort = {run: function(data) { return data.sort(); }};
             rAnk.formula('some', [
-                { run: function(data) { return data.sort(); } },
-                { run: function(data) { return data.sort().reverse(); } }
+                { run: function(data) { return data.map(function(a) { return a; }); } },
+                { run: function(data) { return data.map(function(a) { return 4 - a; }); } }
             ]);
         });
 
         it('should run formula', function() {
             rAnk.run('some', [2,1,3], {}).then(function(data) {
-                expect(data.result).to.eql([2,1,3]);
-                expect(data.stat).to.eql([[ 2, 2 ], [ 3, 1 ], [ 1, 3 ]]);
+                expect(data.result).to.eql([2, 1, 3]);
+                expect(data.stat).to.eql([[ 2, 2 ], [ 1, 3 ], [ 3, 1 ]]);
             });
         });
 
         it('should run formula with weights', function() {
             rAnk.run('some', [2,1,3], {}, [1, 0.5]).then(function(data) {
-                expect(data.result).to.eql([1,2,3]);
+                expect(data.result).to.eql([3, 2, 1]);
                 expect(data.stat).to.eql([[ 3, 1 ], [ 2, 2 ], [ 1, 3 ]]);
             });
         });

@@ -15,8 +15,6 @@ describe('factor', function() {
         this.dataPlain = [4,0,2,1];
         this.dataObj = [{i:4}, {i:0}, {i:2}, {i:1}];
         this.factors = [
-            mock('sort plain'),
-            mock('sort obj'),
             mock('only odd'),
             mock('gt3'),
             mock('lt5'),
@@ -31,7 +29,6 @@ describe('factor', function() {
 
         it('should set defaults', function() {
             var factor = new Factor({run: function() {}});
-            expect(factor.type).to.be(F_SORT);
             expect(factor.run).to.be.a(Function);
             expect(factor.key).to.be.a(Function);
         });
@@ -58,15 +55,6 @@ describe('factor', function() {
 
     });
 
-    describe('exec', function() {
-
-        it('should not modify original data while ranking', function() {
-            this.factors[0].exec(this.dataPlain);
-            expect(this.dataPlain).to.eql([4,0,2,1]);
-        });
-
-        it('TODO: could modify original data while filtering', function() {});
-    });
 
     describe('constants', function() {
 
@@ -88,31 +76,9 @@ describe('factor', function() {
 
     describe('distribution', function() {
 
-        it('should properly distribute sort', function() {
-            var data = this.dataPlain;
-            var factor = this.factors[0];
-
-            factor.exec( data ).then(function(sorting) {
-
-                expect( factor.distribution({min: 1, max: 10}, data, sorting) )
-                    .to.eql( [1, 10, 4, 7] );
-            });
-        });
-
-        it('should properly distribute sort on objects', function() {
-            var data = this.dataObj;
-            var factor = this.factors[1];
-
-            factor.exec( data ).then(function(sorting) {
-
-                expect( factor.distribution({min: 1, max: 4}, data, sorting) )
-                    .to.eql( [1, 4, 2, 3] );
-            });
-        });
-
         it('should append maximum rank to binary trues', function() {
             var data = this.dataPlain;
-            var factor = this.factors[2];
+            var factor = this.factors[0];
 
             factor.exec( data ).then(function(sorting) {
 
@@ -123,7 +89,7 @@ describe('factor', function() {
 
         it('should pass by filters', function() {
             var data = this.dataPlain;
-            var factor = this.factors[3];
+            var factor = this.factors[1];
 
             factor.exec( data ).then(function(sorting) {
 
@@ -134,7 +100,7 @@ describe('factor', function() {
 
         it('should return [] when nothing were filtered', function() {
             var data = this.dataPlain;
-            var factor = this.factors[4];
+            var factor = this.factors[2];
 
             factor.exec( data ).then(function(sorting) {
 
@@ -145,7 +111,7 @@ describe('factor', function() {
 
         it('should distribute simple minmax', function() {
             var data = this.dataPlain;
-            var factor = this.factors[5];
+            var factor = this.factors[3];
 
             factor.exec( data ).then(function(sorting) {
 
@@ -156,7 +122,7 @@ describe('factor', function() {
 
         it('should distribute simple maxmin', function() {
             var data = this.dataPlain;
-            var factor = this.factors[7];
+            var factor = this.factors[5];
 
             factor.exec( data ).then(function(sorting) {
 
@@ -166,7 +132,7 @@ describe('factor', function() {
         });
 
         it('should distribute minmax with constatnts', function() {
-            var factor = this.factors[5];
+            var factor = this.factors[3];
             var data = [12, 8, factor.minValue, factor.maxValue, 10, factor.minValue];
 
             factor.exec( data ).then(function(sorting) {
@@ -177,7 +143,7 @@ describe('factor', function() {
         });
 
         it('should distribute maxmin with constatnts', function() {
-            var factor = this.factors[7];
+            var factor = this.factors[5];
             var data = [12, 8, factor.minValue, factor.maxValue, 10, factor.minValue];
 
             factor.exec( data ).then(function(sorting) {
@@ -189,7 +155,7 @@ describe('factor', function() {
 
         it('should distribute minmax to 0-s on the equal values array', function() {
             var data = [1, 1, 1, 1, 1, 1];
-            var factor = this.factors[5];
+            var factor = this.factors[3];
 
             factor.exec( data ).then(function(sorting) {
 

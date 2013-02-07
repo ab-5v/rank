@@ -2,23 +2,6 @@ var Factor = require('../../lib/factor.js');
 
 var data = {
 
-    'sort plain': {
-        run: function(data) {
-            return data.sort();
-        }
-    },
-
-    'sort obj': {
-        key: function(item) {
-            return item.i;
-        },
-        run: function(data) {
-            return data.sort(function(a, b) {
-                return a.i - b.i;
-            })
-        }
-    },
-
     'only odd': {
         type: F_BINARY,
         run: function(data) {
