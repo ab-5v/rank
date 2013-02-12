@@ -1,168 +1,199 @@
-require('../../lib/vars');
-
+var sinon = require('sinon');
 var expect = require('expect.js');
 
-var Factor = process.env.COVERAGE ?
+var factor = process.env.COVERAGE ?
     require('../../lib-cov/factor.js') :
     require('../../lib/factor.js');
 
-var mock = require('../mock/factor');
+var CONST = factor.CONST;
 
-describe('factor', function() {
+describe.only('factor', function() {
 
-    beforeEach(function() {
+    describe('_create', function() {
 
-        this.dataPlain = [4,0,2,1];
-        this.dataObj = [{i:4}, {i:0}, {i:2}, {i:1}];
-        this.factors = [
-            mock('only odd'),
-            mock('gt3'),
-            mock('lt5'),
-            mock('minmaxSimple'),
-            mock('minmaxObjI'),
-            mock('maxminSimple'),
-        ];
-
-    });
-
-    describe('constructor', function() {
-
-        it('should set defaults', function() {
-            var factor = new Factor({run: function() {}});
-            expect(factor.run).to.be.a(Function);
-            expect(factor.key).to.be.a(Function);
+        beforeEach(function() {
+            this.one = factor({id: 'factor-one', value: function() {}});
+            this.all = factor({valueAll: function() {}});
+            this.copy1 = factor({valueAll: function() { return []; }})
+            this.copy2 = factor({valueAll: function() { return []; }});
         });
 
-        it('should overwrite defaults', function() {
-            var key = function() {};
-            var run = function() {};
-
-            var factor = new Factor({
-                type: F_BINARY,
-                run: run,
-                key: key
-            });
-
-            expect(factor.type).to.be(F_BINARY);
-            expect(factor.run).to.be(run);
-            expect(factor.key).to.be(key);
+        it('should initialize `_values` property', function() {
+            expect( this.one._values ).to.eql([]);
         });
 
-        it('should throw on empty run', function() {
-            var factor = new Factor({});
-            expect(function() { factor.exec(); }).to.throwError();
+        it('should initialize `_replacement` property', function() {
+            expect( this.one._replacements ).to.eql({});
         });
 
-    });
-
-
-    describe('constants', function() {
-
-        it('should replace consts with values', function() {
-            var factor = new Factor({});
-
-            expect( factor.constants([4, factor.minValue, factor.maxValue, 6, 8, factor.minValue], {min: 1, max: 2}) )
-                .to.eql([4, 2, 10, 6, 8, 2]);
+        it('should set `isAll` to false for value factors', function() {
+            expect( this.one.isAll ).to.eql(false);
         });
 
-        it('should replace consts to limits in array of consts only', function() {
-            var factor = new Factor({});
+        it('should set `isAll` to true for valueAll factors', function() {
+            expect( this.all.isAll ).to.eql(true);
+        });
 
-            expect( factor.constants([factor.minValue, factor.maxValue, factor.minValue], {min: 1, max: 10}) )
-                .to.eql([1, 10, 1]);
+        it('should overwrite `id` property', function() {
+            expect( this.one.id ).to.eql('factor-one');
+        });
+
+        it('should generate `id` when one not passed', function() {
+            expect( this.all.id ).to.eql('bc027384201cc6270287b99364fb5e42');
+        });
+
+        it('should generate the same `id` for the similar description', function() {
+            expect( this.copy1.id ).to.eql( this.copy2.id );
+        });
+
+        it('should generate different `id`s for different descriptions', function() {
+            expect( this.copy1.id ).not.to.eql( this.all.id );
+        });
+
+        it('should be able to overwrite common properties', function() {
+            var f = factor({value: 1, valueAll: 2, invert: 3});
+            expect( [f.value, f.valueAll, f.invert] ).to.eql([1, 2, 3]);
         });
 
     });
 
-    describe('distribution', function() {
+    describe('_replacements', function() {
 
-        it('should append maximum rank to binary trues', function() {
-            var data = this.dataPlain;
-            var factor = this.factors[0];
-
-            factor.exec( data ).then(function(sorting) {
-
-                expect( factor.distribution({min: 1, max: 10}, data, sorting) )
-                    .to.eql( [0, 0, 0, 10] );
-            });
+        beforeEach(function() {
+            this.one = factor({value: function() {}});
         });
 
-        it('should pass by filters', function() {
-            var data = this.dataPlain;
-            var factor = this.factors[1];
+        it('should save minValue index in `_replacements` for given index', function() {
+            this.one.minValue(20);
 
-            factor.exec( data ).then(function(sorting) {
-
-                expect( factor.distribution({min: 1, max: 4}, data, sorting) )
-                    .to.eql( [0, -1, -1, -1] );
-            });
+            expect( this.one._replacements[20] ).to.eql(CONST.REPLACER_MIN);
         });
 
-        it('should return [] when nothing were filtered', function() {
-            var data = this.dataPlain;
-            var factor = this.factors[2];
+        it('should save minValue index in `_replacements` for current index', function() {
+            this.one._index = 10;
+            this.one.minValue();
 
-            factor.exec( data ).then(function(sorting) {
-
-                expect( factor.distribution({min: 1, max: 4}, data, sorting) )
-                    .to.eql( [] );
-            });
+            expect( this.one._replacements[10] ).to.eql(CONST.REPLACER_MIN);
         });
 
-        it('should distribute simple minmax', function() {
-            var data = this.dataPlain;
-            var factor = this.factors[3];
+        it('should save minValue index in `_replacements` for given index', function() {
+            this.one.maxValue(20);
 
-            factor.exec( data ).then(function(sorting) {
-
-                expect( factor.distribution({min: 1, max: 4}, data, sorting) )
-                    .to.eql( [ 4, 1, 2.5, 1.75 ] );
-            });
+            expect( this.one._replacements[20] ).to.eql(CONST.REPLACER_MAX);
         });
 
-        it('should distribute simple maxmin', function() {
-            var data = this.dataPlain;
-            var factor = this.factors[5];
+        it('should save maxValue index in `_replacements` for current index', function() {
+            this.one._index = 10;
+            this.one.maxValue();
 
-            factor.exec( data ).then(function(sorting) {
-
-                expect( factor.distribution({min: 1, max: 4}, data, sorting) )
-                    .to.eql( [ 1, 4, 2.5, 3.25 ] );
-            });
+            expect( this.one._replacements[10] ).to.eql(CONST.REPLACER_MAX);
         });
 
-        it('should distribute minmax with constatnts', function() {
-            var factor = this.factors[3];
-            var data = [12, 8, factor.minValue, factor.maxValue, 10, factor.minValue];
+        it('should save removedIted index in `_replacements` for given index', function() {
+            this.one.removeItem(20);
 
-            factor.exec( data ).then(function(sorting) {
-
-                expect( factor.distribution({min: 6, max: 14}, data, sorting) )
-                    .to.eql( [ 12, 8, 6, 14, 10, 6 ] );
-            });
+            expect( this.one._replacements[20] ).to.eql(CONST.REPLACER_DEL);
         });
 
-        it('should distribute maxmin with constatnts', function() {
-            var factor = this.factors[5];
-            var data = [12, 8, factor.minValue, factor.maxValue, 10, factor.minValue];
+        it('should save removedItem index in `_replacements` for current index', function() {
+            this.one._index = 10;
+            this.one.removeItem();
 
-            factor.exec( data ).then(function(sorting) {
-
-                expect( factor.distribution({min: 6, max: 14}, data, sorting) )
-                    .to.eql( [ 8, 12, 14, 6, 10, 14 ] );
-            });
+            expect( this.one._replacements[10] ).to.eql(CONST.REPLACER_DEL);
         });
 
-        it('should distribute minmax to 0-s on the equal values array', function() {
-            var data = [1, 1, 1, 1, 1, 1];
-            var factor = this.factors[3];
+    });
 
-            factor.exec( data ).then(function(sorting) {
+    describe('replacements', function() {
 
-                expect( factor.distribution({min: 1, max: 4}, data, sorting) )
-                    .to.eql( [ 0, 0, 0, 0, 0, 0 ] );
+        var mock = require('../mock/factor.replacements.js');
+
+        beforeEach(function() {
+            this.mock = mock;
+            this.data = mock.min.data;
+
+            this.one = factor({value: function() {}});
+
+            sinon.stub(this.one, 'replacer', function() { return mock.replacer; });
+        });
+
+        it('should not call `replacer` when no replacements found', function() {
+            this.one.replacements(this.data);
+
+            expect( this.one.replacer.called ).not.to.be.ok();
+        });
+
+        it('should return unmodified value when no replacements found', function() {
+            expect( this.one.replacements(this.data) ).to.eql(this.data);
+        });
+
+        it('should call `replacer` when any replacements found', function() {
+            this.one._replacements = this.mock.min.rule;
+            this.one.replacements(this.data);
+
+            expect( this.one.replacer.called ).to.be.ok();
+        });
+
+        it('should pass uniq values to `replacer`', function() {
+            this.one._replacements = this.mock.min.rule;
+            this.one.replacements([1, 1, 2, 2, 3, 3]);
+
+            expect( this.one.replacer.calledWith([1, 2, 3]) ).to.be.ok();
+        });
+
+        ['min', 'max', 'del', 'com', 'all'].forEach(function(set) {
+
+            it('should pass value to `replaser` (' + set + ')', function() {
+                this.one._replacements = this.mock[set].rule;
+                this.one.replacements(this.mock[set].data);
+
+                expect( this.one.replacer.calledWith(this.mock[set].pass) ).to.be.ok();
+            });
+
+            it('should process `replacer` (' + set + ')', function() {
+                this.one._replacements = this.mock[set].rule;
+
+                expect( this.one.replacements(this.mock[set].data) ).to.eql( this.mock[set].rslt );
             });
         });
+    });
+
+    describe('replacer', function() {
+
+        beforeEach(function() {
+            this.one = factor({value: function() {}});
+        });
+
+        it('shoud return default properties on empty array', function() {
+            var replacer = this.one.replacer([]);
+
+            expect( replacer[CONST.REPLACER_MIN] ).to.eql( CONST.LIMIT_MIN );
+            expect( replacer[CONST.REPLACER_MAX] ).to.eql( CONST.LIMIT_MAX );
+            expect( replacer[CONST.REPLACER_DEL] ).to.eql( CONST.VALUE_DEL );
+        });
+
+        it('should return fake range on array with one element', function() {
+            var replacer = this.one.replacer([3]);
+
+            expect( replacer[CONST.REPLACER_MIN] ).to.eql( 0 );
+            expect( replacer[CONST.REPLACER_MAX] ).to.eql( 6 );
+            expect( replacer[CONST.REPLACER_DEL] ).to.eql( CONST.VALUE_DEL );
+        });
+
+        it('should return range on array with few elements', function() {
+            var replacer = this.one.replacer([4, 6]);
+
+            expect( replacer[CONST.REPLACER_MIN] ).to.eql( 2 );
+            expect( replacer[CONST.REPLACER_MAX] ).to.eql( 8 );
+            expect( replacer[CONST.REPLACER_DEL] ).to.eql( CONST.VALUE_DEL );
+        });
+
+        it('should return 0 when step is out of positives', function() {
+            var replacer = this.one.replacer([1, 3]);
+
+            expect( replacer[CONST.REPLACER_MIN] ).to.eql( 0 );
+        });
+
     });
 
 });
