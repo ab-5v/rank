@@ -7,7 +7,7 @@ var factor = process.env.COVERAGE ?
 
 var CONST = factor.CONST;
 
-describe.only('factor', function() {
+describe.only('factor2', function() {
 
     describe('_create', function() {
 
@@ -192,6 +192,32 @@ describe.only('factor', function() {
             var replacer = this.one.replacer([1, 3]);
 
             expect( replacer[CONST.REPLACER_MIN] ).to.eql( 0 );
+        });
+
+    });
+
+    describe('normalize', function() {
+
+        var mock = require('../mock/factor.normalize.js');
+
+        beforeEach(function() {
+            this.one = factor({value: function() {}});
+        });
+
+        it('should return all 0 when minValue == maxValue', function() {
+            expect( this.one.normalize([3, 3, 3, 3]) ).to.eql( [0, 0, 0, 0] );
+        });
+
+        it('should return all -1 when minValue == maxValue == delValue', function() {
+            expect( this.one.normalize([-1, -1, -1, -1]) ).to.eql( [-1, -1, -1, -1] );
+        });
+
+
+        mock.forEach(function(set, i) {
+            it('should return normalized values for set ' + i, function() {
+                this.one.invert = set.invert;
+                expect( this.one.normalize(set.data) ).to.eql( set.rslt );
+            });
         });
 
     });
