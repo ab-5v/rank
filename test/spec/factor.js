@@ -55,6 +55,14 @@ describe.only('factor2', function() {
             expect( [f.value, f.valueAll, f.invert] ).to.eql([1, 2, 3]);
         });
 
+        it('should throw when do description passed', function() {
+            expect( function() { factor(); } ).to.throwException(/should define/);
+        });
+
+        it('should throw when no `value` or `valueAll` passed', function() {
+            expect( function() { factor({}); } ).to.throwException(/should define/);
+        });
+
     });
 
     describe('_replacements', function() {
