@@ -22,10 +22,6 @@ describe.only('factor2', function() {
             expect( this.one._values ).to.eql([]);
         });
 
-        it('should initialize `_replacement` property', function() {
-            expect( this.one._replacements ).to.eql({});
-        });
-
         it('should set `isAll` to false for value factors', function() {
             expect( this.one.isAll ).to.eql(false);
         });
@@ -69,45 +65,116 @@ describe.only('factor2', function() {
 
         beforeEach(function() {
             this.one = factor({value: function() {}});
+
+            sinon.spy(this.one, 'replacement');
         });
 
-        it('should save minValue index in `_replacements` for given index', function() {
-            this.one.minValue(20);
-
-            expect( this.one._replacements[20] ).to.eql(CONST.REPLACER_MIN);
+        it('should be `null` on factor creation', function() {
+            expect( this.one._replacements ).to.eql( null );
         });
 
-        it('should save minValue index in `_replacements` for current index', function() {
-            this.one._index = 10;
-            this.one.minValue();
+        describe('replacement', function() {
 
-            expect( this.one._replacements[10] ).to.eql(CONST.REPLACER_MIN);
+            it('should create `_relpacements` on first call', function() {
+                this.one.replacement(0,0);
+
+                expect( this.one._replacements ).to.eql( {0: 0} );
+            });
+
+            it('should not overwrite `_replacements` on other calls', function() {
+                this.one.replacement(0, 1);
+                this.one.replacement(1, 2);
+
+                expect( this.one._replacements ).to.eql( {0: 1, 1: 2} );
+            });
+
         });
 
-        it('should save minValue index in `_replacements` for given index', function() {
-            this.one.maxValue(20);
+        describe('minValue', function() {
 
-            expect( this.one._replacements[20] ).to.eql(CONST.REPLACER_MAX);
+            it('should call `replacement` method', function() {
+                this.one.minValue(1, 0);
+
+                expect( this.one.replacement.called ).to.be.ok();
+            });
+
+            it('should save minValue index in `_replacements` for given index', function() {
+                this.one.minValue(20);
+
+                expect( this.one._replacements[20] ).to.eql(CONST.REPLACER_MIN);
+            });
+
+            it('should save minValue index in `_replacements` for current index', function() {
+                this.one._index = 10;
+                this.one.minValue();
+
+                expect( this.one._replacements[10] ).to.eql(CONST.REPLACER_MIN);
+            });
+
+            it('should save minValue index in `_replacements` for given index', function() {
+                this.one.maxValue(20);
+
+                expect( this.one._replacements[20] ).to.eql(CONST.REPLACER_MAX);
+            });
         });
 
-        it('should save maxValue index in `_replacements` for current index', function() {
-            this.one._index = 10;
-            this.one.maxValue();
 
-            expect( this.one._replacements[10] ).to.eql(CONST.REPLACER_MAX);
+        describe('maxValue', function() {
+
+            it('should call `replacement` method', function() {
+                this.one.minValue(1, 0);
+
+                expect( this.one.replacement.called ).to.be.ok();
+            });
+
+            it('should save maxValue index in `_replacements` for current index', function() {
+                this.one._index = 10;
+                this.one.maxValue();
+
+                expect( this.one._replacements[10] ).to.eql(CONST.REPLACER_MAX);
+            });
         });
 
-        it('should save removedIted index in `_replacements` for given index', function() {
-            this.one.removeItem(20);
+        describe('removeItem', function() {
+            it('should call `replacement` method', function() {
+                this.one.minValue(1, 0);
 
-            expect( this.one._replacements[20] ).to.eql(CONST.REPLACER_DEL);
+                expect( this.one.replacement.called ).to.be.ok();
+            });
+
+            it('should save removedIted index in `_replacements` for given index', function() {
+                this.one.removeItem(20);
+
+                expect( this.one._replacements[20] ).to.eql(CONST.REPLACER_DEL);
+            });
+
+            it('should save removedItem index in `_replacements` for current index', function() {
+                this.one._index = 10;
+                this.one.removeItem();
+
+                expect( this.one._replacements[10] ).to.eql(CONST.REPLACER_DEL);
+            });
+
         });
 
-        it('should save removedItem index in `_replacements` for current index', function() {
-            this.one._index = 10;
-            this.one.removeItem();
+    });
 
-            expect( this.one._replacements[10] ).to.eql(CONST.REPLACER_DEL);
+    describe('minmax', function() {
+
+        var mock = require('../mock/factor.minmax.js');
+
+        beforeEach(function() {
+            this.one = factor({value: function() {}});
+        });
+
+        Object.keys(mock).forEach(function(key) {
+            var set = mock[key];
+
+            it('should return min/max values for set "' + key + '"', function() {
+                this.one._replacements = set.rule;
+
+                expect( this.one.minmax(set.data) ).to.eql( set.rslt );
+            });
         });
 
     });
@@ -117,91 +184,18 @@ describe.only('factor2', function() {
         var mock = require('../mock/factor.replacements.js');
 
         beforeEach(function() {
-            this.mock = mock;
-            this.data = mock.min.data;
-
-            this.one = factor({value: function() {}});
-
-            sinon.stub(this.one, 'replacer', function() { return mock.replacer; });
-        });
-
-        it('should not call `replacer` when no replacements found', function() {
-            this.one.replacements(this.data);
-
-            expect( this.one.replacer.called ).not.to.be.ok();
-        });
-
-        it('should return unmodified value when no replacements found', function() {
-            expect( this.one.replacements(this.data) ).to.eql(this.data);
-        });
-
-        it('should call `replacer` when any replacements found', function() {
-            this.one._replacements = this.mock.min.rule;
-            this.one.replacements(this.data);
-
-            expect( this.one.replacer.called ).to.be.ok();
-        });
-
-        it('should pass uniq values to `replacer`', function() {
-            this.one._replacements = this.mock.min.rule;
-            this.one.replacements([1, 1, 2, 2, 3, 3]);
-
-            expect( this.one.replacer.calledWith([1, 2, 3]) ).to.be.ok();
-        });
-
-        ['min', 'max', 'del', 'com', 'all'].forEach(function(set) {
-
-            it('should pass value to `replaser` (' + set + ')', function() {
-                this.one._replacements = this.mock[set].rule;
-                this.one.replacements(this.mock[set].data);
-
-                expect( this.one.replacer.calledWith(this.mock[set].pass) ).to.be.ok();
-            });
-
-            it('should process `replacer` (' + set + ')', function() {
-                this.one._replacements = this.mock[set].rule;
-
-                expect( this.one.replacements(this.mock[set].data) ).to.eql( this.mock[set].rslt );
-            });
-        });
-    });
-
-    describe('replacer', function() {
-
-        beforeEach(function() {
             this.one = factor({value: function() {}});
         });
 
-        it('shoud return default properties on empty array', function() {
-            var replacer = this.one.replacer([]);
+        Object.keys(mock).forEach(function(key) {
+            var set = mock[key];
 
-            expect( replacer[CONST.REPLACER_MIN] ).to.eql( CONST.LIMIT_MIN );
-            expect( replacer[CONST.REPLACER_MAX] ).to.eql( CONST.LIMIT_MAX );
-            expect( replacer[CONST.REPLACER_DEL] ).to.eql( CONST.VALUE_DEL );
+            it('should replace values for set "' + key + '"', function() {
+                this.one._replacements = set.rule;
+
+                expect( this.one.replacements(set.data, set.mmax) ).to.eql( set.rslt );
+            });
         });
-
-        it('should return fake range on array with one element', function() {
-            var replacer = this.one.replacer([3]);
-
-            expect( replacer[CONST.REPLACER_MIN] ).to.eql( 0 );
-            expect( replacer[CONST.REPLACER_MAX] ).to.eql( 6 );
-            expect( replacer[CONST.REPLACER_DEL] ).to.eql( CONST.VALUE_DEL );
-        });
-
-        it('should return range on array with few elements', function() {
-            var replacer = this.one.replacer([4, 6]);
-
-            expect( replacer[CONST.REPLACER_MIN] ).to.eql( 2 );
-            expect( replacer[CONST.REPLACER_MAX] ).to.eql( 8 );
-            expect( replacer[CONST.REPLACER_DEL] ).to.eql( CONST.VALUE_DEL );
-        });
-
-        it('should return 0 when step is out of positives', function() {
-            var replacer = this.one.replacer([1, 3]);
-
-            expect( replacer[CONST.REPLACER_MIN] ).to.eql( 0 );
-        });
-
     });
 
     describe('normalize', function() {
@@ -212,19 +206,13 @@ describe.only('factor2', function() {
             this.one = factor({value: function() {}});
         });
 
-        it('should return all 0 when minValue == maxValue', function() {
-            expect( this.one.normalize([3, 3, 3, 3]) ).to.eql( [0, 0, 0, 0] );
-        });
+        Object.keys(mock).forEach(function(key) {
+            var set = mock[key];
 
-        it('should return all -1 when minValue == maxValue == delValue', function() {
-            expect( this.one.normalize([-1, -1, -1, -1]) ).to.eql( [-1, -1, -1, -1] );
-        });
-
-
-        mock.forEach(function(set, i) {
-            it('should return normalized values for set ' + i, function() {
+            it('should return normalized values for set "' + key + '"', function() {
                 this.one.invert = set.invert;
-                expect( this.one.normalize(set.data) ).to.eql( set.rslt );
+
+                expect( this.one.normalize(set.data, set.mmax) ).to.eql( set.rslt );
             });
         });
 
