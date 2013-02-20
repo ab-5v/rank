@@ -1,6 +1,8 @@
 var sinon = require('sinon');
 var expect = require('expect.js');
 
+var pzero = require('p0');
+
 var factor = process.env.COVERAGE ?
     require('../../lib-cov/factor.js') :
     require('../../lib/factor.js');
@@ -57,6 +59,14 @@ describe.only('factor2', function() {
 
         it('should throw when no `value` or `valueAll` passed', function() {
             expect( function() { factor({}); } ).to.throwException(/should define/);
+        });
+
+        it('should throw when call not owerwritten `value`', function() {
+            expect( function() { this.all.value() }.bind(this) ).to.throwException(/Method value must be overwritten/);
+        });
+
+        it('should throw when call not owerwritten `valueAll`', function() {
+            expect( function() { this.one.valueAll() }.bind(this) ).to.throwException(/Method valueAll must be overwritten/);
         });
 
     });
@@ -216,6 +226,96 @@ describe.only('factor2', function() {
             });
         });
 
+    });
+
+    describe('append', function() {
+
+        beforeEach(function() {
+            this.one = factor({value: function() { return 3; }});
+            sinon.spy(this.one, 'value');
+        });
+
+        it('should set `_index` property', function() {
+            this.one.append(4);
+
+            expect( this.one._index ).to.eql(4);
+        });
+
+        it('should call `value` with given params', function() {
+            this.one.append(4, 5, 6);
+
+            expect( this.one.value.calledWith(5, 6) ).to.be.ok();
+        });
+
+        it('should set `_values` item for given index', function() {
+            this.one.append(10);
+
+            expect( this.one._values[10] ).to.eql(3);
+        });
+
+    });
+
+    describe('exec', function() {
+
+        beforeEach(function() {
+            this.one = factor({value: function() {}});
+            this.two = factor({valueAll: function(data, cond) { return [3, 4, 5] }});
+            this.three = factor({valueAll: function(data, cond, done) { return [6, 7, 8]; }});
+
+            sinon.spy(this.one, 'done');
+            sinon.spy(this.two, 'done');
+            sinon.spy(this.three, 'valueAll');
+            sinon.spy(this.three, 'done');
+        });
+
+        it('should call `done` with precalculated values when `!isAll`', function() {
+            this.one._values = [1, 2, 3];
+            this.one.exec();
+
+            expect( this.one.done.calledWith([1, 2, 3]) ).to.be.ok();
+        });
+
+        it('should call `done` with result of `valueAll` when it gets 2 arguments', function() {
+            this.two.exec();
+
+            expect( this.two.done.calledWith([3, 4, 5]) ).to.be.ok();
+        });
+
+        it('should put `done` as an argument to `valueAll`, when it gets 3 arguments', function() {
+            this.three.exec([1, 3], {});
+            this.three.valueAll.args[0][2]([3, 4]);
+
+            expect( this.three.done.calledWith([3, 4]) ).to.be.ok();
+        });
+
+        describe('done', function() {
+
+            var mock = require('../mock/factor.done.js');
+
+            beforeEach(function() {
+                this.one = factor({value: function() {}});
+            });
+
+            Object.keys(mock).forEach(function(key) {
+                var set = mock[key];
+
+                it('should resolve promise with right value for set "' + key + '"', function(done) {
+                    var promise = pzero();
+
+                    this.one.invert = set.invert;
+                    this.one._replacements = set.rule;
+                    this.one.done( set.data, promise );
+
+                    promise.then(function(values) {
+
+                        expect(values).to.eql(set.rslt);
+                        done();
+
+                    });
+                });
+            });
+
+        });
     });
 
 });

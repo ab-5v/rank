@@ -4,7 +4,7 @@ var MIN = CONST.REPLACER_MIN;
 var MAX = CONST.REPLACER_MAX;
 var DEL = CONST.REPLACER_DEL;
 
-var VDEL = CONST.VALUE_DEL;
+var D = CONST.VALUE_DEL;
 
 var minmax = { min: 3, max: 8 };
 
@@ -25,18 +25,18 @@ module.exports = {
         mmax: minmax,
         rule: { 3: DEL },
         data: [3, 2, 4, undefined, 6],
-        rslt: [3, 2, 4,-1, 6]
+        rslt: [3, 2, 4, D, 6]
     },
     com: {
         mmax: minmax,
         rule: { 0: DEL, 2: MIN, 3: MAX },
         data: [undefined, 2, undefined, undefined, 6],
-        rslt: [-1, 2, 3, 8, 6]
+        rslt: [D, 2, 3, 8, 6]
     },
     all: {
         mmax: minmax,
         rule: { 0: MAX, 1: MIN, 2: DEL, 3: MIN, 4: MAX },
         data: [undefined, undefined, undefined, undefined, undefined],
-        rslt: [8, 3,-1, 3, 8]
+        rslt: [8, 3, D, 3, 8]
     }
 };
