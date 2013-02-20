@@ -1,4 +1,3 @@
-require('../../lib/vars');
 var expect = require('expect.js');
 
 var Formula = process.env.COVERAGE ?
