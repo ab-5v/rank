@@ -9,14 +9,14 @@ var factor = process.env.COVERAGE ?
 
 var CONST = factor.CONST;
 
-describe.only('factor2', function() {
+describe('factor', function() {
 
     describe('_create', function() {
 
         beforeEach(function() {
             this.one = factor({id: 'factor-one', value: function() {}});
             this.all = factor({valueAll: function() {}});
-            this.copy1 = factor({valueAll: function() { return []; }})
+            this.copy1 = factor({valueAll: function() { return []; }});
             this.copy2 = factor({valueAll: function() { return []; }});
         });
 
@@ -62,11 +62,11 @@ describe.only('factor2', function() {
         });
 
         it('should throw when call not owerwritten `value`', function() {
-            expect( function() { this.all.value() }.bind(this) ).to.throwException(/Method value must be overwritten/);
+            expect( function() { this.all.value(); }.bind(this) ).to.throwException(/Method value must be overwritten/);
         });
 
         it('should throw when call not owerwritten `valueAll`', function() {
-            expect( function() { this.one.valueAll() }.bind(this) ).to.throwException(/Method valueAll must be overwritten/);
+            expect( function() { this.one.valueAll(); }.bind(this) ).to.throwException(/Method valueAll must be overwritten/);
         });
 
     });
@@ -259,7 +259,7 @@ describe.only('factor2', function() {
 
         beforeEach(function() {
             this.one = factor({value: function() {}});
-            this.two = factor({valueAll: function(data, cond) { return [3, 4, 5] }});
+            this.two = factor({valueAll: function(data, cond) { return [3, 4, 5]; }});
             this.three = factor({valueAll: function(data, cond, done) { return [6, 7, 8]; }});
 
             sinon.spy(this.one, 'done');
