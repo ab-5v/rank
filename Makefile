@@ -3,7 +3,7 @@ TESTS=test/spec/*.js
 
 all: node_modules test
 
-node_modules:
+node_modules: package.json
 	npm install
 
 test:
