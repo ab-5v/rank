@@ -8,7 +8,7 @@ var formula = process.env.COVERAGE ?
     require('../../lib-cov/formula.js') :
     require('../../lib/formula.js');
 
-describe.only('formula', function() {
+describe('formula', function() {
 
     beforeEach(function() {
 

@@ -12,12 +12,8 @@ describe('rAnk', function() {
 
     describe('_init', function() {
 
-        it('should create new formula', function() {
-            expect( this.rank._formula ).to.be.ok();
-        });
-
-        it('should create empty factors array', function() {
-            expect( this.rank._factors ).to.eql([]);
+        it('should create empty descriptions array', function() {
+            expect( this.rank._descriptions ).to.eql([]);
         });
 
         it('should create empty data array', function() {
@@ -36,24 +32,24 @@ describe('rAnk', function() {
 
     describe('factor', function() {
 
-        it('should add one factor', function() {
+        it('should add one description', function() {
             this.rank.factors({});
 
-            expect( this.rank._factors.length ).to.eql(1);
+            expect( this.rank._descriptions.length ).to.eql(1);
         });
 
-        it('should add array of factors', function() {
+        it('should add array of descriptions', function() {
             this.rank.factors([{}, {}]);
 
-            expect( this.rank._factors.length ).to.eql(2);
+            expect( this.rank._descriptions.length ).to.eql(2);
         });
 
-        it('should append factor', function() {
+        it('should append descriptions', function() {
             this.rank
                 .factors([{}, {}])
                 .factors({});
 
-            expect( this.rank._factors.length ).to.eql(3);
+            expect( this.rank._descriptions.length ).to.eql(3);
         });
 
     });
