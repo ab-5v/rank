@@ -8,7 +8,8 @@
     "devDependencies": {
         "request": "*",
         "expect.js": "*",
-        "mocha": "*"
+        "mocha": "*",
+        "sinon": "*"
     },
     "main": "lib/rAnk",
     "engines": { "node": ">= 0.8.0" }

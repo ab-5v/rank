@@ -13,15 +13,14 @@ var list = function(data) {
 console.log('Factors:');
 factors.forEach(function(factor) { console.log(factor.name); });
 
-// load factors into formuls `sole3`
-rAnk.formula('sole3', factors);
-
 // list data
 console.log('Data:' + list(data));
 
 // apply factors
-rAnk.run('sole3', data, {})
-    .then(function(sorted) {
+rAnk()
+    .factors(factors)
+    .data(data)
+    .run(function(sorted) {
         // list sorted data
         console.log('Sorted:' + list(sorted.result));
     });
