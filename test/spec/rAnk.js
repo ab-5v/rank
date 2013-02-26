@@ -74,4 +74,41 @@ describe('rAnk', function() {
 
     });
 
+    describe('run', function() {
+
+        var mock = require('../mock/rank.run.js');
+
+        it('should run callback when it passed', function(done) {
+            rAnk().factors({value: function() {}}).run(function() {
+                done();
+            });
+        });
+
+        it('should return and resolve promise, when no callback passed', function(done) {
+            rAnk().factors({value: function() {}}).run().then(function() {
+                done();
+            })
+        });
+
+        Object.keys(mock).forEach(function(key) {
+            var set = mock[key];
+
+            it('should calculate for set "' + key + '"', function(done) {
+                var rank = rAnk()
+                    .data( set.data )
+                    .factors( set.factors );
+
+                if (set.weights) { rank.weights( set.weights ); }
+                if (set.conditions) { rank.conditions(set.conditions); }
+
+                rank.run(function(data) {
+                    expect( data.result ).to.eql( set.result );
+                    done();
+                });
+            });
+
+        });
+
+    });
+
 });
