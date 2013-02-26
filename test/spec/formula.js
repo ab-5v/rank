@@ -79,7 +79,18 @@ describe.only('formula', function() {
 
     describe('compile', function() {
 
-        it('should compile values', function() {});
+        var mock = require('../mock/formula.compile.js');
+
+        Object.keys(mock).forEach(function(key) {
+            var set = mock[key];
+
+            it('should compile set "' + key + '"', function() {
+                this.formula._data = set.data;
+                this.formula._weights = set.wght;
+
+                expect( this.formula.compile( set.mark ) ).to.eql( set.rslt );
+            });
+        });
 
     });
 
