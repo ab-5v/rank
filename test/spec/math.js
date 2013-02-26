@@ -65,7 +65,7 @@ describe('math', function() {
         });
 
         it('should return 0 on empty array', function() {
-            expect(math.mean([])).to.be(0);
+            expect(math.median([])).to.be(0);
         });
 
     });
