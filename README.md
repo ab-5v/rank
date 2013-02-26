@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/artjock/rAnk.png)](https://travis-ci.org/artjock/rAnk)
+
 rAnk
 ====
 
