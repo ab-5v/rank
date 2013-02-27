@@ -5,7 +5,7 @@ module.exports = {
         mark: [],
         rslt: {
             stat: [],
-            result: [],
+            data: [],
             weight: []
         }
     },
@@ -16,7 +16,7 @@ module.exports = {
         mark: [[10]],
         rslt: {
             stat: [[10]],
-            result: [1],
+            data: [1],
             weight: [1]
         }
     },
@@ -27,7 +27,7 @@ module.exports = {
         mark: [[2, 2, 3]],
         rslt: {
             stat: [[3], [2], [2]],
-            result: [3, 1, 2],
+            data: [3, 1, 2],
             weight: [1]
         }
     },
@@ -38,7 +38,7 @@ module.exports = {
         mark: [[2, 2, 3], [2, 4, 1]],
         rslt: {
             stat: [[2, 4], [2, 2], [3, 1]],
-            result: [2, 1, 3],
+            data: [2, 1, 3],
             weight: [1, 1]
         }
     },
@@ -49,7 +49,7 @@ module.exports = {
         mark: [[2, 2, 4], [4, 4, 1]],
         rslt: {
             stat: [[4, 1], [2, 4], [2, 4]],
-            result: [3, 1, 2],
+            data: [3, 1, 2],
             weight: [1, 0.5]
         }
     },
@@ -60,7 +60,7 @@ module.exports = {
         mark: [[2, 2, 1], [1, -1, 3]],
         rslt: {
             stat: [[1, 3], [2, 1]],
-            result: [3, 1],
+            data: [3, 1],
             weight: [1, 1]
         }
     }

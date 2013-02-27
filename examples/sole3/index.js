@@ -22,5 +22,5 @@ rAnk()
     .data(data)
     .run(function(sorted) {
         // list sorted data
-        console.log('Sorted:' + list(sorted.result));
+        console.log('Sorted:' + list(sorted.data));
     });

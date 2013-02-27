@@ -101,8 +101,8 @@ describe('rAnk', function() {
                 if (set.weights) { rank.weights( set.weights ); }
                 if (set.conditions) { rank.conditions(set.conditions); }
 
-                rank.run(function(data) {
-                    expect( data.result ).to.eql( set.result );
+                rank.run(function(result) {
+                    expect( result.data ).to.eql( set.result );
                     done();
                 });
             });
