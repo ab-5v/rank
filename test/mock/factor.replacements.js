@@ -1,4 +1,4 @@
-var CONST = require('../../lib/factor').CONST;
+var CONST = require('../../lib/const');
 
 var MIN = CONST.REPLACER_MIN;
 var MAX = CONST.REPLACER_MAX;

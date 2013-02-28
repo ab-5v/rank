@@ -1,7 +1,7 @@
 NPM_BIN=$(CURDIR)/node_modules/.bin
 TESTS=test/spec/*.js
 
-all: node_modules test
+all: node_modules test rAnk.js
 
 node_modules: package.json
 	npm install
@@ -17,6 +17,13 @@ lib-cov: clean-cov
 
 clean-cov:
 	@rm -rf lib-cov coverage.html
+
+rAnk.js: lib/*.js
+	@echo 'Generating rAnk.js...'
+	@cat lib/math.js     >  $@
+	@cat lib/factor.js   >> $@
+	@cat lib/formula.js  >> $@
+	@cat lib/rAnk.js     >> $@
 
 
 .PHONY: test test-cov clean-cov

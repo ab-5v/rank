@@ -1,4 +1,4 @@
-var D = require('../../lib/factor').CONST.VALUE_DEL;
+var D = require('../../lib/const').VALUE_DEL;
 
 module.exports = {
     reg1: {

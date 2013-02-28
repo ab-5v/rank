@@ -7,7 +7,7 @@ var factor = process.env.COVERAGE ?
     require('../../lib-cov/factor.js') :
     require('../../lib/factor.js');
 
-var CONST = factor.CONST;
+var CONST = require('../../lib/const');
 
 describe('factor', function() {
 
