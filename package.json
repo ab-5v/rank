@@ -1,6 +1,6 @@
 {
     "name": "rank",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "Factor based ranking system",
     "dependencies": {
         "p0": "0.2.1"
