@@ -14,6 +14,7 @@ var crypto = {
     createHash: function() { return this; },
     update: function(data) { this._data = data; return this; },
     digest: function (string) {
+        string = this._data;
 
         function cmn(q, a, b, x, s, t) {
             a = add32(add32(a, q), add32(x, t));

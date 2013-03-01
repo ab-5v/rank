@@ -37,7 +37,7 @@ describe('factor', function() {
         });
 
         it('should generate `id` when one not passed', function() {
-            expect( this.all.id ).to.match(/[a-f0-9]{32}/);
+            expect( this.all.id ).to.eql('bc027384201cc6270287b99364fb5e42');
         });
 
         it('should generate the same `id` for the similar description', function() {
