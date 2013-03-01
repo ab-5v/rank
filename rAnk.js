@@ -126,12 +126,12 @@ var crypto = {
             }
             s = s.substring(i-64);
             var tail = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0], sl=s.length;
-            for (i=0; i<sl; i++) 	tail[i>>2] |= s.charCodeAt(i) << ((i%4) << 3);
+            for (i=0; i<sl; i++) tail[i>>2] |= s.charCodeAt(i) << ((i%4) << 3);
             tail[i>>2] |= 0x80 << ((i%4) << 3);
             if (i > 55) {
                 md5cycle(state, tail);
                 i=16;
-                while (i--) { tail[i] = 0 }
+                while (i--) { tail[i] = 0; }
             }
             tail[14] = n*8;
             md5cycle(state, tail);
@@ -141,10 +141,7 @@ var crypto = {
         function md5blk(s) {
             var md5blks = [], i;
             for (i=0; i<64; i+=4) {
-                md5blks[i>>2] = s.charCodeAt(i)
-                + (s.charCodeAt(i+1) << 8)
-                + (s.charCodeAt(i+2) << 16)
-                + (s.charCodeAt(i+3) << 24);
+                md5blks[i>>2] = s.charCodeAt(i) + (s.charCodeAt(i+1) << 8) + (s.charCodeAt(i+2) << 16) + (s.charCodeAt(i+3) << 24);
             }
             return md5blks;
         }
@@ -229,7 +226,7 @@ var math = {
      * @return Number
      */
     sum: function(values) {
-        return values.reduce(function(a, b) { return a + b}, 0);
+        return values.reduce(function(a, b) { return a + b; }, 0);
     },
 
     /**
@@ -610,7 +607,7 @@ factor_proto = factor.prototype = {
         // otherwise it's valueAll calls
         } else if (this.valueAll.length > 2) {
             // for async calls
-            this.valueAll(data, cond, function(values) { that.done(values, promise) });
+            this.valueAll(data, cond, function(values) { that.done(values, promise); });
         } else {
             // for sync calls
             this.done( this.valueAll(data, cond), promise );
@@ -775,7 +772,7 @@ formula_proto = formula.prototype = {
                     // summing marks
                     sum[iMark] = (sum[iMark] || 0) + mark * weights[iFactor];
                     // saving stats
-                    stats[iMark][iFactor] = mark
+                    stats[iMark][iFactor] = mark;
                 }
             });
         });

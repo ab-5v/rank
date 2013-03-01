@@ -114,12 +114,12 @@ var crypto = {
             }
             s = s.substring(i-64);
             var tail = [0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0], sl=s.length;
-            for (i=0; i<sl; i++) 	tail[i>>2] |= s.charCodeAt(i) << ((i%4) << 3);
+            for (i=0; i<sl; i++) tail[i>>2] |= s.charCodeAt(i) << ((i%4) << 3);
             tail[i>>2] |= 0x80 << ((i%4) << 3);
             if (i > 55) {
                 md5cycle(state, tail);
                 i=16;
-                while (i--) { tail[i] = 0 }
+                while (i--) { tail[i] = 0; }
             }
             tail[14] = n*8;
             md5cycle(state, tail);
@@ -129,10 +129,7 @@ var crypto = {
         function md5blk(s) {
             var md5blks = [], i;
             for (i=0; i<64; i+=4) {
-                md5blks[i>>2] = s.charCodeAt(i)
-                + (s.charCodeAt(i+1) << 8)
-                + (s.charCodeAt(i+2) << 16)
-                + (s.charCodeAt(i+3) << 24);
+                md5blks[i>>2] = s.charCodeAt(i) + (s.charCodeAt(i+1) << 8) + (s.charCodeAt(i+2) << 16) + (s.charCodeAt(i+3) << 24);
             }
             return md5blks;
         }
