@@ -918,7 +918,7 @@ rAnk_proto = rAnk.prototype = {
      *
      * @param {Function} callback
      *
-     * @return p0
+     * @return pzero
      */
     run: function(callback) {
         // creating factors from description

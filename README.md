@@ -29,7 +29,7 @@ rAnk()                      // creating rAnk instance
     });
 ```
         
-You can also call `.run()` without any params, then it will return [p0](https://github.com/artjock/p) promise, which will be resolved with `result` argument.
+You can also call `.run()` without any params, then it will return [pzero](https://github.com/artjock/pzero) promise, which will be resolved with `result` argument.
 
 #### factors
 
