@@ -7,7 +7,7 @@ var DEL = CONST.REPLACER_DEL;
 var LMIN = CONST.LIMIT_MIN;
 var LMAX = CONST.LIMIT_MAX;
 
-module.exports = {
+var mock_factor_minmax = {
     none: {
         rule: null,
         data: [3, 2, 2, 1, 8],
@@ -70,3 +70,4 @@ module.exports = {
     }
 };
 
+module.exports = mock_factor_minmax;

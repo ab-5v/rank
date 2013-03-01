@@ -1,4 +1,4 @@
-module.exports = {
+var mock_rank_run = {
     'one simple factor': {
         data: [1, 2, 3],
         factors: [
@@ -102,3 +102,5 @@ module.exports = {
         result: [7, 9, 1, 5]
     }
 };
+
+module.exports = mock_rank_run;

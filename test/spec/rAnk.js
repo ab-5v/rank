@@ -76,7 +76,7 @@ describe('rAnk', function() {
 
     describe('run', function() {
 
-        var mock = require('../mock/rank.run.js');
+        var mock_rank_run = require('../mock/rank.run.js');
 
         it('should run callback when it passed', function(done) {
             rAnk().factors({value: function() {}}).run(function() {
@@ -90,8 +90,8 @@ describe('rAnk', function() {
             })
         });
 
-        Object.keys(mock).forEach(function(key) {
-            var set = mock[key];
+        Object.keys(mock_rank_run).forEach(function(key) {
+            var set = mock_rank_run[key];
 
             it('should calculate for set "' + key + '"', function(done) {
                 var rank = rAnk()

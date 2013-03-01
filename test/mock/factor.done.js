@@ -6,7 +6,7 @@ var DEL = CONST.REPLACER_DEL;
 
 var D = CONST.VALUE_DEL;
 
-module.exports = {
+var mock_factor_done = {
     none: {
         rule: null,
         data: [0, 1, 2, 3, 4, 5],
@@ -79,3 +79,5 @@ module.exports = {
         rslt: [D, 0, 0.5, 1, 0.5]
     }
 };
+
+module.exports = mock_factor_done;

@@ -8,7 +8,7 @@ var D = CONST.VALUE_DEL;
 
 var minmax = { min: 3, max: 8 };
 
-module.exports = {
+var mock_factor_replacements = {
     min: {
         mmax: minmax,
         rule: { 0: MIN },
@@ -40,3 +40,5 @@ module.exports = {
         rslt: [8, 3, D, 3, 8]
     }
 };
+
+module.exports = mock_factor_replacements;

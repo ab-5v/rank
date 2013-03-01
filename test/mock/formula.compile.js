@@ -1,4 +1,4 @@
-module.exports = {
+var mock_formula_compile = {
     'empty': {
         data: [],
         wght: [],
@@ -65,3 +65,5 @@ module.exports = {
         }
     }
 };
+
+module.exports = mock_formula_compile;

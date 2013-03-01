@@ -79,10 +79,10 @@ describe('formula', function() {
 
     describe('compile', function() {
 
-        var mock = require('../mock/formula.compile.js');
+        var mock_formula_compile = require('../mock/formula.compile.js');
 
-        Object.keys(mock).forEach(function(key) {
-            var set = mock[key];
+        Object.keys(mock_formula_compile).forEach(function(key) {
+            var set = mock_formula_compile[key];
 
             it('should compile set "' + key + '"', function() {
                 this.formula._data = set.data;

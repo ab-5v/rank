@@ -105,7 +105,7 @@ var crypto = {
 
 
         function md51(s) {
-            txt = '';
+            var txt = '';
             var n = s.length,
             state = [1732584193, -271733879, -1732584194, 271733878], i;
             for (i=64; i<=n; i+=64) {

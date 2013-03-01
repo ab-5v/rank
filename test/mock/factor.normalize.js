@@ -1,6 +1,6 @@
 var D = require('../../lib/const').VALUE_DEL;
 
-module.exports = {
+var mock_factor_normalize = {
     reg1: {
         mmax: { min: 0, max: 5 },
         data: [0, 2,   4,   5],
@@ -73,3 +73,5 @@ module.exports = {
         invert: true
     }
 };
+
+module.exports = mock_factor_normalize;

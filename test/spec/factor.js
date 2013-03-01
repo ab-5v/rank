@@ -37,7 +37,7 @@ describe('factor', function() {
         });
 
         it('should generate `id` when one not passed', function() {
-            expect( this.all.id ).to.eql('bc027384201cc6270287b99364fb5e42');
+            expect( this.all.id ).to.match(/[a-f0-9]{32}/);
         });
 
         it('should generate the same `id` for the similar description', function() {
@@ -171,14 +171,14 @@ describe('factor', function() {
 
     describe('minmax', function() {
 
-        var mock = require('../mock/factor.minmax.js');
+        var mock_factor_minmax = require('../mock/factor.minmax.js');
 
         beforeEach(function() {
             this.one = factor({value: function() {}});
         });
 
-        Object.keys(mock).forEach(function(key) {
-            var set = mock[key];
+        Object.keys(mock_factor_minmax).forEach(function(key) {
+            var set = mock_factor_minmax[key];
 
             it('should return min/max values for set "' + key + '"', function() {
                 this.one._replacements = set.rule;
@@ -191,14 +191,14 @@ describe('factor', function() {
 
     describe('replacements', function() {
 
-        var mock = require('../mock/factor.replacements.js');
+        var mock_factor_replacements = require('../mock/factor.replacements.js');
 
         beforeEach(function() {
             this.one = factor({value: function() {}});
         });
 
-        Object.keys(mock).forEach(function(key) {
-            var set = mock[key];
+        Object.keys(mock_factor_replacements).forEach(function(key) {
+            var set = mock_factor_replacements[key];
 
             it('should replace values for set "' + key + '"', function() {
                 this.one._replacements = set.rule;
@@ -210,14 +210,14 @@ describe('factor', function() {
 
     describe('normalize', function() {
 
-        var mock = require('../mock/factor.normalize.js');
+        var mock_factor_normalize = require('../mock/factor.normalize.js');
 
         beforeEach(function() {
             this.one = factor({value: function() {}});
         });
 
-        Object.keys(mock).forEach(function(key) {
-            var set = mock[key];
+        Object.keys(mock_factor_normalize).forEach(function(key) {
+            var set = mock_factor_normalize[key];
 
             it('should return normalized values for set "' + key + '"', function() {
                 this.one.invert = set.invert;
@@ -290,14 +290,14 @@ describe('factor', function() {
 
         describe('done', function() {
 
-            var mock = require('../mock/factor.done.js');
+            var mock_factor_done = require('../mock/factor.done.js');
 
             beforeEach(function() {
                 this.one = factor({value: function() {}});
             });
 
-            Object.keys(mock).forEach(function(key) {
-                var set = mock[key];
+            Object.keys(mock_factor_done).forEach(function(key) {
+                var set = mock_factor_done[key];
 
                 it('should resolve promise with right value for set "' + key + '"', function(done) {
                     var promise = pzero();
