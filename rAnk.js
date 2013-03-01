@@ -914,6 +914,35 @@ rAnk_proto = rAnk.prototype = {
     },
 
     /**
+     * Loads data from the run result
+     *
+     * @param result
+     */
+    load: function(result) {
+        var that = this;
+        var marks = [];
+        var descriptions = [];
+
+        this._weights = result.weight;
+
+        this._data = result.data || result.stat.map(function(a, i) { return i; });
+
+        result.stat[0].forEach(function(w, i) {
+            marks[i] = [];
+
+            result.stat.forEach(function(stat) {
+                marks[i].push(stat[i]);
+            });
+        });
+
+        marks.forEach(function(mark) {
+            that.factors({valueAll: function() { return mark; }});
+        });
+
+        return this;
+    },
+
+    /**
      * Executes formula with given factors and params
      *
      * @param {Function} callback

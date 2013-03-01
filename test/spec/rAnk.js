@@ -74,6 +74,51 @@ describe('rAnk', function() {
 
     });
 
+    describe('load', function() {
+
+        var mock_rank_load = require('../mock/rank.load.js');
+
+        beforeEach(function() {
+            this.stat = [ [1, 2], [3, 4] ];
+            this.wght = [1, 1];
+            this.data = [10, 20];
+        });
+
+        it('should create descriptions from stat', function() {
+            var r = rAnk().load({stat: this.stat});
+
+            expect( r._descriptions[0].valueAll() ).to.eql( [1, 3] );
+            expect( r._descriptions[1].valueAll() ).to.eql( [2, 4] );
+        });
+
+        it('should fill data, if no data provided', function() {
+            expect( rAnk().load({stat: this.stat})._data ).to.eql( [0, 1] );
+        });
+
+        Object.keys(mock_rank_load).forEach(function(key) {
+            var set = mock_rank_load[key];
+
+            it('should sort data as it were sorted for set "' + key + '"', function(done) {
+
+                rAnk().load(set.result).run(function(result) {
+                    expect( result.data ).to.eql( set.result.data );
+                    done()
+                });
+
+            });
+
+            it('should sort data with new weight for set "' + key + '"', function(done) {
+                var r = rAnk().load(set.result);
+
+                r.weights(set.wght).run(function(result) {
+                    expect( result.data ).to.eql( set.rslt );
+                    done();
+                });
+            });
+        });
+
+    });
+
     describe('run', function() {
 
         var mock_rank_run = require('../mock/rank.run.js');
