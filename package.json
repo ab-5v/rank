@@ -3,7 +3,7 @@
     "version": "0.2.1",
     "description": "Factor based ranking system",
     "dependencies": {
-        "p0": "0.2.0"
+        "p0": "0.2.1"
     },
     "devDependencies": {
         "request": "*",

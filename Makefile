@@ -1,6 +1,9 @@
 NPM_BIN=$(CURDIR)/node_modules/.bin
 TESTS=test/spec/*.js
 
+CLIENT_NAMES=start.js const.js crypto.js math.js factor.js formula.js rAnk.js end.js
+CLIENT_FILES=$(addprefix client/,$(CLIENT_NAMES))
+
 all: node_modules test rAnk.js
 
 node_modules: package.json
@@ -18,12 +21,9 @@ lib-cov: clean-cov
 clean-cov:
 	@rm -rf lib-cov coverage.html
 
-rAnk.js: lib/*.js
+rAnk.js: $(CLIENT_FILES)
 	@echo 'Generating rAnk.js...'
-	@cat lib/math.js     >  $@
-	@cat lib/factor.js   >> $@
-	@cat lib/formula.js  >> $@
-	@cat lib/rAnk.js     >> $@
+	@cat $(CLIENT_FILES) | grep -v 'module.exports' | grep -v 'require(' > $@
 
 
 .PHONY: test test-cov clean-cov
