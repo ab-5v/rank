@@ -549,6 +549,7 @@ factor_proto = factor.prototype = {
      * @return Array
      */
     normalize: function(values, minmax) {
+        var invert = this.invert;
         var DEL = CONST.VALUE_DEL;
 
         // factor doesn't mean anything
@@ -560,13 +561,19 @@ factor_proto = factor.prototype = {
         }
 
         // chose right linear function
-        var linear = !this.invert ?
+        var linear = !invert ?
             math.linear( minmax.min, CONST.LIMIT_MIN, minmax.max, CONST.LIMIT_MAX ):
             math.linear( minmax.min, CONST.LIMIT_MAX, minmax.max, CONST.LIMIT_MIN );
 
         return values.map(function(val) {
-            // calculate all except VALUE_DEL
-            return val === DEL ? DEL : linear(val);
+            // skip for DEL value
+            if (val === DEL) { return DEL; }
+
+            if (typeof val !== 'number') {
+                val = !invert ? minmax.min : minmax.max;
+            }
+
+            return linear(val);
         });
     },
 
