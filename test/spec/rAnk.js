@@ -95,6 +95,13 @@ describe('rAnk', function() {
             expect( rAnk().load({stat: this.stat})._data ).to.eql( [0, 1] );
         });
 
+        it('should restore factor ids from stat', function() {
+            var r = rAnk().load({stat: this.stat, factor: ['asd', 'qwer']});
+
+            expect( r._descriptions[0].id ).to.eql( 'asd' );
+            expect( r._descriptions[1].id ).to.eql( 'qwer' );
+        });
+
         Object.keys(mock_rank_load).forEach(function(key) {
             var set = mock_rank_load[key];
 

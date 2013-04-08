@@ -40,6 +40,22 @@ describe('factor', function() {
             expect( this.all.id ).to.eql('bc027384201cc6270287b99364fb5e42');
         });
 
+        it('should generate `id` when one is empty string', function() {
+            expect( factor({id: '', value: function() {}}).id ).to.eql('8af70f00f40b765560cb3385431ccdf9');
+        });
+
+        it('should generate `id` when one is undefined', function() {
+            expect( factor({id: undefined, value: function() {}}).id ).to.eql('8af70f00f40b765560cb3385431ccdf9');
+        });
+
+        it('should generate `id` when one is null', function() {
+            expect( factor({id: null, value: function() {}}).id ).to.eql('8af70f00f40b765560cb3385431ccdf9');
+        });
+
+        it('should generate `id` when one is not primitive', function() {
+            expect( factor({id: {a: 1}, value: function() {}}).id ).to.eql('8af70f00f40b765560cb3385431ccdf9');
+        });
+
         it('should generate the same `id` for the similar description', function() {
             expect( this.copy1.id ).to.eql( this.copy2.id );
         });

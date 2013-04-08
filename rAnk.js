@@ -385,7 +385,8 @@ factor_proto = factor.prototype = {
         this.isAll = 'valueAll' in descr;
 
         // generate id if user does'n provide one
-        if (!descr.id) {
+        if (!descr.id || typeof descr.id !== 'string') {
+            delete descr.id;
             this.id = factor.generateId(descr);
         }
 
@@ -761,6 +762,8 @@ formula_proto = formula.prototype = {
         var data = this._data;
         var weights = this._weights;
 
+        var ids = this._factors.map(function(f) { return f.id; });
+
         results.forEach(function(marks, iFactor) {
             marks.forEach(function(mark, iMark) {
                 // create stats slot
@@ -794,6 +797,7 @@ formula_proto = formula.prototype = {
         return {
             stat: resStat,
             data: resData,
+            factor: ids,
             weight: weights
         };
     },
@@ -919,6 +923,7 @@ rAnk_proto = rAnk.prototype = {
         var that = this;
         var marks = [];
         var descriptions = [];
+        var ids = result.factor || [];
 
         this._weights = result.weight;
 
@@ -932,8 +937,8 @@ rAnk_proto = rAnk.prototype = {
             });
         });
 
-        marks.forEach(function(mark) {
-            that.factors({valueAll: function() { return mark; }});
+        marks.forEach(function(mark, i) {
+            that.factors({id: ids[i], valueAll: function() { return mark; }});
         });
 
         return this;

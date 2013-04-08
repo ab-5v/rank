@@ -14,9 +14,9 @@ describe('formula', function() {
 
         var data = this.data = [1, 2, 3];
 
-        this.f1 = factor({value: function() {}});
-        this.f2 = factor({value: function() {}});
-        this.f3 = factor({valueAll: function() { return data; }});
+        this.f1 = factor({id: 'f1', value: function() {}});
+        this.f2 = factor({id: 'f2', value: function() {}});
+        this.f3 = factor({id: 'f3', valueAll: function() { return data; }});
 
         sinon.spy(this.f1, 'append');
         sinon.spy(this.f2, 'append');
@@ -87,6 +87,7 @@ describe('formula', function() {
             it('should compile set "' + key + '"', function() {
                 this.formula._data = set.data;
                 this.formula._weights = set.wght;
+                set.rslt.factor = ['f1', 'f2', 'f3'];
 
                 expect( this.formula.compile( set.mark ) ).to.eql( set.rslt );
             });
