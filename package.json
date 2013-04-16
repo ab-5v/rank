@@ -1,6 +1,6 @@
 {
     "name": "rank",
-    "version": "0.2.6",
+    "version": "0.2.7",
     "description": "Factor based ranking system",
     "dependencies": {
         "pzero": "0.3.0"
