@@ -63,13 +63,13 @@ var mock_factor_normalize = {
     },
     del3: {
         mmax: { min: 3, max: 3 },
-        data: [3, 3, 3,  D],
-        rslt: [0, 0, 0, -1]
+        data: [3, 3, 3, D],
+        rslt: [0, 0, 0, D]
     },
     del4: {
         mmax: { min: 3, max: 3 },
-        data: [3, 3, 3,  D],
-        rslt: [0, 0, 0, -1],
+        data: [3, 3, 3, D],
+        rslt: [0, 0, 0, D],
         invert: true
     },
     nonu1: {

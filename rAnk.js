@@ -3,11 +3,14 @@
 var CONST = {
     LIMIT_MIN: 0,
     LIMIT_MAX: 1,
-    VALUE_DEL: -1,
+
+    VALUE_NTR: 0,
+    VALUE_DEL: 'd',
 
     REPLACER_MIN: 0,
     REPLACER_MAX: 1,
-    REPLACER_DEL: -1
+    REPLACER_NTR: 2,
+    REPLACER_DEL: 3
 };
 
 var crypto = {
@@ -422,6 +425,17 @@ factor_proto = factor.prototype = {
      */
     maxValue: function(i) {
         this.replacement(i || this._index, CONST.REPLACER_MAX);
+    },
+
+    /**
+     * Marks i'th item as a neutral value,
+     * that means after normalizations this value would be 0
+     *
+     * @public
+     * @param {Number} i
+     */
+    neutralValue: function() {
+        this.replacement(i || this._index, CONST.REPLACER_NTR);
     },
 
     /**

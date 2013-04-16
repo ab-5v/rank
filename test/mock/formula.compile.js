@@ -1,3 +1,5 @@
+var D = require('../../lib/const').VALUE_DEL;
+
 var mock_formula_compile = {
     'empty': {
         data: [],
@@ -57,7 +59,7 @@ var mock_formula_compile = {
     'many, many, del': {
         data: [1, 2, 3],
         wght: [1, 1],
-        mark: [[2, 2, 1], [1, -1, 3]],
+        mark: [[2, 2, 1], [1, D, 3]],
         rslt: {
             stat: [[1, 3], [2, 1]],
             data: [3, 1],
