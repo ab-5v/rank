@@ -100,7 +100,7 @@ value: function(item) {
 }
 ```
     
-For both `removeItem()` and `min/maxValue()` when you use it in `valueAll` function you should pass index of item as an argument:
+For both `removeItem()` and `min/max/neutralValue()` when you use it in `valueAll` function you should pass index of item as an argument:
 
 ```javascript
 valueAll: function(data) {
