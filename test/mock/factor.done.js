@@ -2,6 +2,7 @@ var CONST = require('../../lib/const');
 
 var MIN = CONST.REPLACER_MIN;
 var MAX = CONST.REPLACER_MAX;
+var NTR = CONST.REPLACER_NTR;
 var DEL = CONST.REPLACER_DEL;
 
 var D = CONST.VALUE_DEL;
@@ -40,7 +41,7 @@ var mock_factor_done = {
         rslt: [0, 1, 0.6, 0.8, 0.2, 0.4]
     },
     max2: {
-        rule: { 2: MAX, 3:MAX},
+        rule: { 2: MAX, 3:MAX },
         data: [5, 5, undefined, undefined],
         rslt: [0, 0, 1, 1]
     },
@@ -53,6 +54,16 @@ var mock_factor_done = {
         rule: { 1: DEL, 3: DEL },
         data: [3, undefined, 3, undefined],
         rslt: [N, D, N, D]
+    },
+    ntr1: {
+        rule: { 2: NTR },
+        data: [0, 5, undefined, 4],
+        rslt: [0, 1, N, 0.8]
+    },
+    ntr2: {
+        rule: { 1: NTR, 3: NTR },
+        data: [3, undefined, 3, undefined],
+        rslt: [N, N, N, N]
     },
     com1: {
         rule: { 1: MIN, 3: MAX },
@@ -78,6 +89,11 @@ var mock_factor_done = {
         rule: { 0: DEL, 1: MIN, 3: MAX },
         data: [undefined, undefined, 7, undefined, 7],
         rslt: [D, 0, 0.5, 1, 0.5]
+    },
+    all4: {
+        rule: { 0: DEL, 1: MIN, 2: NTR, 3: MAX },
+        data: [undefined, undefined, undefined, undefined, 7],
+        rslt: [D, 0, N, 1, 0.5]
     }
 };
 

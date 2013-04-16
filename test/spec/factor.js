@@ -148,7 +148,7 @@ describe('factor', function() {
         describe('maxValue', function() {
 
             it('should call `replacement` method', function() {
-                this.one.minValue(1, 0);
+                this.one.maxValue(1, 0);
 
                 expect( this.one.replacement.called ).to.be.ok();
             });
@@ -158,6 +158,22 @@ describe('factor', function() {
                 this.one.maxValue();
 
                 expect( this.one._replacements[10] ).to.eql(CONST.REPLACER_MAX);
+            });
+        });
+
+        describe('neutralValue', function() {
+
+            it('should call `replacement` method', function() {
+                this.one.neutralValue(1, 0);
+
+                expect( this.one.replacement.called ).to.be.ok();
+            });
+
+            it('should save neutralValue index in `_replacements` for current index', function() {
+                this.one._index = 10;
+                this.one.neutralValue();
+
+                expect( this.one._replacements[10] ).to.eql(CONST.REPLACER_NTR);
             });
         });
 

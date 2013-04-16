@@ -1,4 +1,5 @@
 var D = require('../../lib/const').VALUE_DEL;
+var N = require('../../lib/const').VALUE_NTR;
 
 var mock_formula_compile = {
     'empty': {
@@ -63,6 +64,16 @@ var mock_formula_compile = {
         rslt: {
             stat: [[1, 3], [2, 1]],
             data: [3, 1],
+            weight: [1, 1]
+        }
+    },
+    'many, many, ntr': {
+        data: [1, 2, 3],
+        wght: [1, 1],
+        mark: [[2, 2, 4], [4, N, 1]],
+        rslt: {
+            stat: [[2, 4], [4, 1], [2, 0]],
+            data: [1, 3, 2],
             weight: [1, 1]
         }
     }

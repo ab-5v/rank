@@ -2,6 +2,7 @@ var CONST = require('../../lib/const');
 
 var MIN = CONST.REPLACER_MIN;
 var MAX = CONST.REPLACER_MAX;
+var NTR = CONST.REPLACER_NTR;
 var DEL = CONST.REPLACER_DEL;
 
 var LMIN = CONST.LIMIT_MIN;
@@ -48,6 +49,16 @@ var mock_factor_minmax = {
         data: [3, 3, 3, undefined],
         rslt: {min: 3, max: 3}
     },
+    ntr1: {
+        rule: { 2: NTR },
+        data: [3, 2, undefined, 4],
+        rslt: {min: 2, max: 4 }
+    },
+    ntr2: {
+        rule: { 2: NTR },
+        data: [3, 3, undefined, 3],
+        rslt: {min: 3, max: 3 }
+    },
     com1: {
         rule: { 2: MIN, 4: MAX },
         data: [6, 12, undefined, 9, undefined],
@@ -62,6 +73,11 @@ var mock_factor_minmax = {
         rule: { 0: DEL, 2: MIN, 3: MAX },
         data: [undefined, 4, undefined, undefined, 6],
         rslt: { min: 2, max: 8 }
+    },
+    com4: {
+        rule: { 1: DEL, 3: MIN, 4: MAX, 6: NTR },
+        data: [4, undefined, 8, undefined, undefined, 6, undefined],
+        rslt: { min: 2, max: 10}
     },
     all1: {
         rule: { 0: MAX, 1: MIN, 2: DEL, 3: MIN, 4: MAX },

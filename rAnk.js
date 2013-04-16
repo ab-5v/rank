@@ -434,7 +434,7 @@ factor_proto = factor.prototype = {
      * @public
      * @param {Number} i
      */
-    neutralValue: function() {
+    neutralValue: function(i) {
         this.replacement(i || this._index, CONST.REPLACER_NTR);
     },
 
@@ -543,6 +543,7 @@ factor_proto = factor.prototype = {
 
         replacer[CONST.REPLACER_MIN] = minmax.min;
         replacer[CONST.REPLACER_MAX] = minmax.max;
+        replacer[CONST.REPLACER_NTR] = CONST.VALUE_NTR;
         replacer[CONST.REPLACER_DEL] = CONST.VALUE_DEL;
 
         if (repl) {
@@ -797,7 +798,9 @@ formula_proto = formula.prototype = {
                 if (mark === DEL || sum[iMark] === DEL) {
                     sum[iMark] = DEL;
                 // do ignore NTR values
-                } else if (mark !== NTR) {
+                } else if (mark === NTR) {
+                    stats[iMark][iFactor] = 0;
+                } else {
                     // summing marks
                     sum[iMark] = (sum[iMark] || 0) + mark * weights[iFactor];
                     // saving stats
