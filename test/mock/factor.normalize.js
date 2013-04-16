@@ -1,4 +1,5 @@
 var D = require('../../lib/const').VALUE_DEL;
+var N = require('../../lib/const').VALUE_NTR;
 
 var mock_factor_normalize = {
     reg1: {
@@ -48,7 +49,7 @@ var mock_factor_normalize = {
     reg9: {
         mmax: { min: 5, max: 5 },
         data: [5, 5, 5, 5],
-        rslt: [0, 0, 0, 0]
+        rslt: [N, N, N, N]
     },
     del1: {
         mmax: { min: 0, max: 5 },
@@ -64,56 +65,56 @@ var mock_factor_normalize = {
     del3: {
         mmax: { min: 3, max: 3 },
         data: [3, 3, 3, D],
-        rslt: [0, 0, 0, D]
+        rslt: [N, N, N, D]
     },
     del4: {
         mmax: { min: 3, max: 3 },
         data: [3, 3, 3, D],
-        rslt: [0, 0, 0, D],
+        rslt: [N, N, N, D],
         invert: true
     },
     nonu1: {
         mmax: { min: 0, max: 5 },
         data: [0, 2,   null,   5],
-        rslt: [0, 0.4, 0, 1]
+        rslt: [0, 0.4, N, 1]
     },
     nonu2: {
         mmax: { min: 0, max: 5 },
         data: [0, 2,   null,   5],
-        rslt: [1, 0.6, 0, 0],
+        rslt: [1, 0.6, N, 0],
         invert: true
     },
     nonu3: {
         mmax: { min: 0, max: 5 },
         data: [0, 2,   undefined,   5],
-        rslt: [0, 0.4, 0, 1]
+        rslt: [0, 0.4, N, 1]
     },
     nonu4: {
         mmax: { min: 0, max: 5 },
         data: [0, 2,   undefined,   5],
-        rslt: [1, 0.6, 0, 0],
+        rslt: [1, 0.6, N, 0],
         invert: true
     },
     nonu5: {
         mmax: { min: 0, max: 5 },
         data: [0, 2,   {},   5],
-        rslt: [0, 0.4, 0, 1]
+        rslt: [0, 0.4, N, 1]
     },
     nonu6: {
         mmax: { min: 0, max: 5 },
         data: [0, 2,   {},   5],
-        rslt: [1, 0.6, 0, 0],
+        rslt: [1, 0.6, N, 0],
         invert: true
     },
     nonu7: {
         mmax: { min: 0, max: 5 },
         data: [0, 2,   'asd',   5],
-        rslt: [0, 0.4, 0, 1]
+        rslt: [0, 0.4, N, 1]
     },
     nonu8: {
         mmax: { min: 0, max: 5 },
         data: [0, 2,   'asd',   5],
-        rslt: [1, 0.6, 0, 0],
+        rslt: [1, 0.6, N, 0],
         invert: true
     }
 };

@@ -5,6 +5,7 @@ var MAX = CONST.REPLACER_MAX;
 var DEL = CONST.REPLACER_DEL;
 
 var D = CONST.VALUE_DEL;
+var N = CONST.VALUE_NTR;
 
 var mock_factor_done = {
     none: {
@@ -51,7 +52,7 @@ var mock_factor_done = {
     del2: {
         rule: { 1: DEL, 3: DEL },
         data: [3, undefined, 3, undefined],
-        rslt: [0, D, 0, D]
+        rslt: [N, D, N, D]
     },
     com1: {
         rule: { 1: MIN, 3: MAX },

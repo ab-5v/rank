@@ -4,7 +4,7 @@ var CONST = {
     LIMIT_MIN: 0,
     LIMIT_MAX: 1,
 
-    VALUE_NTR: 0,
+    VALUE_NTR: 'n',
     VALUE_DEL: 'd',
 
     REPLACER_MIN: 0,
@@ -490,8 +490,10 @@ factor_proto = factor.prototype = {
             values.forEach(function(value, i) {
                 // check which replacements we have
                 if (i in repl) {
-                    if (repl[i] === CONST.REPLACER_MIN) { hasMin = true; }
-                    else if (repl[i] === CONST.REPLACER_MAX) { hasMax = true; }
+                    switch( repl[i] ) {
+                        case CONST.REPLACER_MIN: hasMin = true; break;
+                        case CONST.REPLACER_MAX: hasMax = true; break;
+                    }
                 }
                 // if real value
                 else {
@@ -564,13 +566,14 @@ factor_proto = factor.prototype = {
      */
     normalize: function(values, minmax) {
         var invert = this.invert;
+        var NTR = CONST.VALUE_NTR;
         var DEL = CONST.VALUE_DEL;
 
         // factor doesn't mean anything
         if (minmax.min === minmax.max) {
             return values.map(function(val) {
-                // return neutral 0 for all except VALUE_DEL
-                return val === DEL ? DEL : 0;
+                // return NTR for all except VALUE_DEL
+                return val === DEL ? DEL : NTR;
             });
         }
 
@@ -582,10 +585,10 @@ factor_proto = factor.prototype = {
         return values.map(function(val) {
             // skip for DEL value
             if (val === DEL) { return DEL; }
-
-            if (typeof val !== 'number') {
-                val = !invert ? minmax.min : minmax.max;
-            }
+            // skip for NTR value
+            if (val === NTR) { return NTR; }
+            // return NTR for all non-numbers
+            if (typeof val !== 'number') { return NTR; }
 
             return linear(val);
         });
@@ -774,6 +777,7 @@ formula_proto = formula.prototype = {
      */
     compile: function(results) {
         var DEL = CONST.VALUE_DEL;
+        var NTR = CONST.VALUE_NTR;
         var sum = [];
         var stats = [];
         var resData = [];
@@ -792,7 +796,8 @@ formula_proto = formula.prototype = {
                 // ignore deleted values
                 if (mark === DEL || sum[iMark] === DEL) {
                     sum[iMark] = DEL;
-                } else {
+                // do ignore NTR values
+                } else if (mark !== NTR) {
                     // summing marks
                     sum[iMark] = (sum[iMark] || 0) + mark * weights[iFactor];
                     // saving stats
