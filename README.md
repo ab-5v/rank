@@ -88,6 +88,18 @@ value: function(item) {
 }
 ```
     
+If value doesn't mean anything for given factor, but you don't want to remove it from the resulting set, you can use `neutralValue()`:
+
+```javascript
+value: function(item) {
+    if (count in item) {
+        return item.count;
+    } else {
+        return this.neutralValue();
+    }
+}
+```
+    
 For both `removeItem()` and `min/maxValue()` when you use it in `valueAll` function you should pass index of item as an argument:
 
 ```javascript
