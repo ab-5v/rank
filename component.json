@@ -1,0 +1,10 @@
+{
+  "name": "rAnk",
+  "version": "0.2.7",
+  "main": "rAnk.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ]
+}
