@@ -11,7 +11,7 @@ rAnk
 
 ### rAnk
 
-    var rAnk = require('rAnk');
+    var rAnk = require('rank');
     
 #### Methods
 
