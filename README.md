@@ -25,6 +25,7 @@ rAnk()                      // creating rAnk instance
     .run(function(result) {     // call run to execute factors
         result.data;        // sorted data
         result.stat;        // statistics about factor's marks
+        result.factor;      // array of factors ids
         result.weight;      // weights applied to your factors
     });
 ```
@@ -105,7 +106,7 @@ For both `removeItem()` and `min/max/neutralValue()` when you use it in `valueAl
 ```javascript
 valueAll: function(data) {
     var that = this;
-    data.map(function(item, i) {
+    return data.map(function(item, i) {
         if (item.ts < 0) {
             that.removeItem(i);
         } else {
