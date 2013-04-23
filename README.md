@@ -74,14 +74,6 @@ Each factor is described by factor's description, wich has the following propert
 }
 ```
     
-There are some situations, when don't know exactly which values to return, but your know, that the value should be the lowest or the highest in the set. For this situations you can use `minValue()` and `maxValue()` functions:
-
-```javascript
-value: function(item) {
-    return item.ts ? new Date - item.ts : this.minValue();
-}
-```
-    
 You also may want to delete some item from the resulting dataset. You should use `removeItem()` for it:
 
 ```javascript
@@ -94,7 +86,7 @@ value: function(item) {
 }
 ```
     
-If value doesn't mean anything for given factor, but you don't want to remove it from the resulting set, you can use `neutralValue()`:
+If value doesn't mean anything for given factor or it is to small, but you don't want to remove it from the resulting set, you can use `neutralValue()`:
 
 ```javascript
 value: function(item) {
@@ -106,7 +98,7 @@ value: function(item) {
 }
 ```
     
-For both `removeItem()` and `min/max/neutralValue()` when you use it in `valueAll` function you should pass index of item as an argument:
+For both `removeItem()` and `neutralValue()` when you use it in `valueAll` function you should pass index of item as an argument:
 
 ```javascript
 valueAll: function(data) {
