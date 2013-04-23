@@ -47,9 +47,14 @@ Each factor is described by factor's description, wich has the following propert
                         // the greater mark each item gets.
                         // When you set invert to true it means, that the greater value you have,
                         // the lower the mark will be.
+                        // only spurs can be inverted
 
     // function, that will calculate value for each item of data,
-    // this value will be used by system to calculate final mark
+    // this value will be used by system to calculate final mark (spur or fine)
+    // it should return number
+    // if it returns negative number, it will be interpreted as a fine and marked in the range [-1, 0]
+    // if it returns non-negative number, it will be interpreted as a spur and marked the range [0, 1]
+    // if it returns non-number it will be iterpreted as a neutral value
     // conditions is the object you passed to rAnk().conditions()
 
     value: function(item, conditons) {
