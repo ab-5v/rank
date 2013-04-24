@@ -109,13 +109,13 @@ var mock_factor_preprocess = {
         vals: [-3, -3, N, -3],
         rslt: { spur: {}, fine: {min: -3, max: -3} }
     },
-    com1: {
+    all1: {
         rule: { 1: DEL, 6: NTR },
         data: [4, undefined, 8, undefined, undefined, 6, undefined],
         vals: [4, D, 8, N, N, 6, N],
         rslt: { spur: {min: 4, max: 8}, fine: {}}
     },
-    all1: {
+    all2: {
         rule: { 0:NTR, 2: DEL },
         data: [undefined, undefined, undefined, undefined, undefined],
         vals: [N, N, D, N, N],

@@ -2,120 +2,167 @@ var D = require('../../lib/const').VALUE_DEL;
 var N = require('../../lib/const').VALUE_NTR;
 
 var mock_factor_normalize = {
-    reg1: {
-        mmax: { min: 0, max: 5 },
-        data: [0, 2,   4,   5],
-        rslt: [0, 0.4, 0.8, 1],
+    spur1: {
+        spur: { min: 0, max: 5 },
+        fine: {},
+        data: [0, 3,   4,   5],
+        rslt: [0.1, 0.64, 0.82, 1],
         invert: false
     },
-    reg2: {
-        mmax: { min: 0, max: 5 },
+    spur2: {
+        spur: { min: 0, max: 5 },
+        fine: {},
         data: [0, 2,   4,   5],
-        rslt: [1, 0.6, 0.2, 0],
+        rslt: [1, 0.64, 0.28, 0.1],
         invert: true
     },
-    reg3: {
-        mmax: { min: 0, max: 10 },
-        data: [5,   1,  7,   10, 0],
-        rslt: [0.5, 0.1, 0.7, 1, 0]
+    spur3: {
+        spur: { min: 5, max: 10 },
+        fine: {},
+        data: [8,   5, 9,  10, 6],
+        rslt: [0.64, 0.1, 0.82, 1, 0.28]
     },
-    reg4: {
-        mmax: { min: 5, max: 10 },
+    spur4: {
+        spur: { min: 5, max: 10 },
+        fine: {},
         data: [7,   5, 9,  10],
-        rslt: [0.4, 0, 0.8, 1]
-    },
-    reg5: {
-        mmax: { min: 5, max: 10 },
-        data: [7,   5, 9,  10],
-        rslt: [0.6, 1, 0.2, 0],
+        rslt: [0.64, 1, 0.28, 0.1],
         invert: true
     },
-    reg6: {
-        mmax: { min: 5, max: 10 },
-        data: [9,  10, 5, 7,   9],
-        rslt: [0.8, 1, 0, 0.4, 0.8]
-    },
-    reg7: {
-        mmax: { min: 5, max: 10 },
+    spur5: {
+        spur: { min: 5, max: 10 },
+        fine: {},
         data: [8,  10, 9,   5, 6,   5],
-        rslt: [0.6, 1, 0.8, 0, 0.2, 0]
+        rslt: [0.64, 1, 0.82, 0.1, 0.28, 0.1]
     },
-    reg8: {
-        mmax: { min: 5, max: 10 },
-        data: [8,  10, 10, 5, 5, 10],
-        rslt: [0.4, 0,  0, 1, 1,  0],
+    spur6: {
+        spur: { min: 5, max: 10 },
+        fine: {},
+        data: [9,  10, 10, 5, 5, 10],
+        rslt: [0.28, 0.1,  0.1, 1, 1,  0.1],
         invert: true
     },
-    reg9: {
-        mmax: { min: 5, max: 5 },
+    spur7: {
+        spur: { min: 5, max: 5 },
+        fine: {},
         data: [5, 5, 5, 5],
-        rslt: [N, N, N, N]
+        rslt: [1, 1, 1, 1]
+    },
+    fine1: {
+        spur: {},
+        fine: { min: -1, max: -9 },
+        data: [-5,   -1,  -6,   -9],
+        rslt: [-0.55, -0.1, -0.6625, -1]
+    },
+    fine2: {
+        spur: {},
+        fine: { min: -3, max: -3},
+        data: [-3, -3, -3],
+        rslt: [-1, -1, -1]
+    },
+    fine3: {
+        spur: {},
+        fine: { min: -1, max: -9 },
+        data: [-5,   -1,  -6,   -9],
+        rslt: [-0.55, -0.1, -0.6625, -1],
+        invert: true
+    },
+    fine4: {
+        spur: {},
+        fine: { min: -3, max: -3},
+        data: [-3, -3, -3],
+        rslt: [-1, -1, -1],
+        invert: true
+    },
+    com1: {
+        spur: { min: 5, max: 10 },
+        fine: { min: -1, max: -9 },
+        data: [8,    5,   9,    -9, -5,   10, 6,    -1],
+        rslt: [0.64, 0.1, 0.82, -1, -0.55, 1, 0.28, -0.1]
+    },
+    com2: {
+        spur: { min: 5, max: 10 },
+        fine: { min: -1, max: -9 },
+        data: [7,    5, 9,    -9, -5,   10,   -1],
+        rslt: [0.64, 1, 0.28, -1, -0.55, 0.1, -0.1],
+        invert: true
+    },
+    com3: {
+        spur: { min: 3, max: 3 },
+        fine: { min: -1, max: -9 },
+        data: [-9, -5,    3, 3, -1],
+        rslt: [-1, -0.55, 1, 1, -0.1]
+    },
+    com3: {
+        spur: { min: 0, max: 5 },
+        fine: { min: -1, max: -9 },
+        data: [-9, -5,    0, 5, -1],
+        rslt: [-1, -0.55, 0.1, 1, -0.1]
     },
     del1: {
-        mmax: { min: 0, max: 5 },
+        spur: { min: 0, max: 5 },
+        fine: {},
         data: [0, D, 4,   5],
-        rslt: [0, D, 0.8, 1]
+        rslt: [0.1, D, 0.82, 1]
     },
     del2: {
-        mmax: { min: 5, max: 10 },
+        spur: { min: 5, max: 10 },
+        fine: {},
         data: [D,  10, 10, 5, 5, 10],
-        rslt: [D,   0,  0, 1, 1,  0],
+        rslt: [D,   0.1,  0.1, 1, 1,  0.1],
         invert: true
     },
     del3: {
-        mmax: { min: 3, max: 3 },
+        spur: { min: 3, max: 3 },
+        fine: {},
         data: [3, 3, 3, D],
-        rslt: [N, N, N, D]
+        rslt: [1, 1, 1, D]
     },
     del4: {
-        mmax: { min: 3, max: 3 },
+        spur: { min: 3, max: 3 },
+        fine: {},
         data: [3, 3, 3, D],
-        rslt: [N, N, N, D],
+        rslt: [1, 1, 1, D],
         invert: true
     },
-    nonu1: {
-        mmax: { min: 0, max: 5 },
-        data: [0, 2,   null,   5],
-        rslt: [0, 0.4, N, 1]
+    del5: {
+        spur: {},
+        fine: { min: -1, max: -9 },
+        data: [-5,   -1,  D,   -9],
+        rslt: [-0.55, -0.1, D, -1]
     },
-    nonu2: {
-        mmax: { min: 0, max: 5 },
-        data: [0, 2,   null,   5],
-        rslt: [1, 0.6, N, 0],
+    del6: {
+        spur: {},
+        fine: { min: -3, max: -3},
+        data: [-3, D, -3],
+        rslt: [-1, D, -1]
+    },
+    ntr1: {
+        spur: { min: 0, max: 5 },
+        fine: {},
+        data: [0, N, 4,   5],
+        rslt: [0.1, N, 0.82, 1]
+    },
+    ntr2: {
+        spur: { min: 5, max: 10 },
+        fine: {},
+        data: [N,  10, 10, 5, 5, 10],
+        rslt: [N,   0.1,  0.1, 1, 1,  0.1],
         invert: true
     },
-    nonu3: {
-        mmax: { min: 0, max: 5 },
-        data: [0, 2,   undefined,   5],
-        rslt: [0, 0.4, N, 1]
+    ntr3: {
+        spur: {},
+        fine: { min: -3, max: -3},
+        data: [N, -3, -3],
+        rslt: [N, -1, -1]
     },
-    nonu4: {
-        mmax: { min: 0, max: 5 },
-        data: [0, 2,   undefined,   5],
-        rslt: [1, 0.6, N, 0],
+    all1: {
+        spur: { min: 5, max: 10 },
+        fine: { min: -1, max: -9 },
+        data: [7,    5, 9,    N, -9, -5,    D, 10,   -1],
+        rslt: [0.64, 1, 0.28, N, -1, -0.55, D,  0.1, -0.1],
         invert: true
-    },
-    nonu5: {
-        mmax: { min: 0, max: 5 },
-        data: [0, 2,   {},   5],
-        rslt: [0, 0.4, N, 1]
-    },
-    nonu6: {
-        mmax: { min: 0, max: 5 },
-        data: [0, 2,   {},   5],
-        rslt: [1, 0.6, N, 0],
-        invert: true
-    },
-    nonu7: {
-        mmax: { min: 0, max: 5 },
-        data: [0, 2,   'asd',   5],
-        rslt: [0, 0.4, N, 1]
-    },
-    nonu8: {
-        mmax: { min: 0, max: 5 },
-        data: [0, 2,   'asd',   5],
-        rslt: [1, 0.6, N, 0],
-        invert: true
+
     }
 };
 

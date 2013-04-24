@@ -162,7 +162,7 @@ describe('factor', function() {
 
     });
 
-    describe.only('preprocess', function() {
+    describe('preprocess', function() {
 
         var mock_factor_preprocess = require('../mock/factor.preprocess.js');
 
@@ -183,7 +183,7 @@ describe('factor', function() {
 
     });
 
-    describe('normalize', function() {
+    describe.only('normalize', function() {
 
         var mock_factor_normalize = require('../mock/factor.normalize.js');
 
@@ -197,7 +197,7 @@ describe('factor', function() {
             it('should return normalized values for set "' + key + '"', function() {
                 this.one.invert = set.invert;
 
-                expect( this.one.normalize(set.data, set.mmax) ).to.eql( set.rslt );
+                expect( this.one.normalize(set.data, {spur: set.spur, fine: set.fine}) ).to.eql( set.rslt );
             });
         });
 

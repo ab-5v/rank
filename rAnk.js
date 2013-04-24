@@ -1,16 +1,19 @@
 ;(function(root) {
 
 var CONST = {
-    LIMIT_MIN: 0,
-    LIMIT_MAX: 1,
+
+    SPUR_MIN: 0.1,
+    SPUR_MAX: 1,
+
+    FINE_MIN: -0.1,
+    FINE_MAX: -1,
 
     VALUE_NTR: 'n',
     VALUE_DEL: 'd',
 
-    REPLACER_MIN: 0,
-    REPLACER_MAX: 1,
     REPLACER_NTR: 2,
     REPLACER_DEL: 3
+
 };
 
 var crypto = {
@@ -454,6 +457,7 @@ factor_proto = factor.prototype = {
     /**
      * Calculates limits and processes replacements
      *
+     * @private
      * @param {Array} values
      *
      * @returns Object
@@ -499,34 +503,33 @@ factor_proto = factor.prototype = {
      *
      * @return Array
      */
-    normalize: function(values, minmax) {
-        var invert = this.invert;
-        var NTR = CONST.VALUE_NTR;
-        var DEL = CONST.VALUE_DEL;
+    normalize: function(values, limits) {
 
-        // factor doesn't mean anything
-        if (minmax.min === minmax.max) {
-            return values.map(function(val) {
-                // return NTR for all except VALUE_DEL
-                return val === DEL ? DEL : NTR;
-            });
-        }
+        // returns right linear function
+        var linear = function(type, limits, invert) {
+            var MIN = CONST[type + '_MIN'];
+            var MAX = CONST[type + '_MAX'];
+
+            return limits.min === limits.max ?
+                function() { return MAX; }:
+                !invert ?
+                    math.linear( limits.min, MIN, limits.max, MAX ):
+                    math.linear( limits.min, MAX, limits.max, MIN );
+        };
 
         // chose right linear function
-        var linear = !invert ?
-            math.linear( minmax.min, CONST.LIMIT_MIN, minmax.max, CONST.LIMIT_MAX ):
-            math.linear( minmax.min, CONST.LIMIT_MAX, minmax.max, CONST.LIMIT_MIN );
+        var fine = linear('FINE', limits.fine, false);
+        var spur = linear('SPUR', limits.spur, this.invert);
 
-        return values.map(function(val) {
-            // skip for DEL value
-            if (val === DEL) { return DEL; }
-            // skip for NTR value
-            if (val === NTR) { return NTR; }
-            // return NTR for all non-numbers
-            if (typeof val !== 'number') { return NTR; }
+        for (var i = 0; i < values.length; i++) {
+            var val = values[i];
 
-            return linear(val);
-        });
+            if (typeof val === 'number') {
+                values[i] = val < 0 ? fine(val) : spur(val);
+            }
+        }
+
+        return values;
     },
 
     /**
