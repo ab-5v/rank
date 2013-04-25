@@ -41,13 +41,13 @@ var mock_factor_preprocess = {
         rule: null,
         data: [-5, -3, -2, -1],
         vals: [-5, -3, -2, -1],
-        rslt: { spur: {}, fine: {min: -5, max: -1} }
+        rslt: { spur: {}, fine: {min: -1, max: -5} }
     },
     fine2: {
         rule: null,
         data: [undefined, -3, -2, -1],
         vals: [N, -3, -2, -1],
-        rslt: { spur: {}, fine: {min: -3, max: -1} }
+        rslt: { spur: {}, fine: {min: -1, max: -3} }
     },
     fine3: {
         rule: null,
@@ -59,13 +59,13 @@ var mock_factor_preprocess = {
         rule: null,
         data: [3, -1, 5, -3, 2, 2, -4],
         vals: [3, -1, 5, -3, 2, 2, -4],
-        rslt: { spur: {min: 2, max: 5}, fine: {min: -4, max: -1} }
+        rslt: { spur: {min: 2, max: 5}, fine: {min: -1, max: -4} }
     },
     com2: {
         rule: null,
         data: [3, -1, 5, -3, 2, undefined, -4],
         vals: [3, -1, 5, -3, 2, N, -4],
-        rslt: { spur: {min: 2, max: 5}, fine: {min: -4, max: -1} }
+        rslt: { spur: {min: 2, max: 5}, fine: {min: -1, max: -4} }
     },
     com3: {
         rule: null,

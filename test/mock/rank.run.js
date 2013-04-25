@@ -19,7 +19,7 @@ var mock_rank_run = {
     'one isAll factor': {
         data: [1, 2, 3, 4],
         factors: [
-            { valueAll: function(data) { return data } }
+            { valueAll: function(data) { return [1, 2, 3, 4]; } }
         ],
         result: [4, 3, 2, 1]
     },
@@ -48,26 +48,25 @@ var mock_rank_run = {
         data: [3, 2, 9, 0],
         factors: [
             { value: function(val) { return val === 3 ? this.removeItem() : 1; } },
-            { value: function(val) { return val === 9 ? this.minValue() : val; } },
-            { value: function(val) { return val === 0 ? this.maxValue() : val; } }
+            { value: function(val) { return val; } }
         ],
-        result: [0, 2, 9]
+        result: [9, 2, 0]
     },
 
     'isAll factors with consts': {
         data: [1, 3, 4, 0],
         factors: [
-            {valueAll: function(data) { return [1, 2, 1, this.maxValue(3)]; } },
-            {valueAll: function(data) { return [1, this.removeItem(1), this.minValue(2), 0]; } }
+            {valueAll: function(data) { return [1, 2, 1, this.neutralValue(3)]; } },
+            {valueAll: function(data) { return [1, this.removeItem(1), this.neutralValue(2), 5]; } }
         ],
-        result: [1, 0, 4]
+        result: [0, 1, 4]
     },
 
     'combined factors with async': {
         data: [1, 8, 16, 3],
         factors: [
             { valueAll: function(data) { return [1, 2, 2, 1]; } },
-            { valueAll: function(data, c, done) { setTimeout(function() { done([2, 2, 1, 7]); }, 20) } },
+            { valueAll: function(data, c, done) { setTimeout(function() { done([2, 2, 1, 7]); }, 20); } },
             { value: function(val) { return val % 2; } }
         ],
         result: [3, 1, 8, 16]
@@ -77,7 +76,7 @@ var mock_rank_run = {
         data: [{a: 1}, {a: 7}, {a: 8}],
         factors: [
             { value: function(item) { return item.a; } },
-            { valueAll: function() { return [1, 0, 1]}, invert: true }
+            { valueAll: function() { return [1, 0, 1]; }, invert: true }
         ],
         result: [{a: 7}, {a: 8}, {a: 1}]
     },
@@ -94,7 +93,7 @@ var mock_rank_run = {
 
     'combined factors with weights': {
         data: [1, 7, 5, 9],
-        weights: [1, 0.5],
+        weights: [1, 0.6],
         factors: [
             { value: function(val) { return val; } },
             { valueAll: function(data) { return [9, 9, 1, 1]; } }

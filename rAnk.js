@@ -479,8 +479,8 @@ factor_proto = factor.prototype = {
             // fines and spurs
             } else if (typeof val === 'number') {
                 if (val < 0) {
-                    if ( !('min' in fine) || fine.min > val) { fine.min = val; }
-                    if ( !('max' in fine) || fine.max < val) { fine.max = val; }
+                    if ( !('min' in fine) || fine.min < val) { fine.min = val; }
+                    if ( !('max' in fine) || fine.max > val) { fine.max = val; }
                 } else {
                     if ( !('min' in spur) || spur.min > val) { spur.min = val; }
                     if ( !('max' in spur) || spur.max < val) { spur.max = val; }
@@ -499,7 +499,7 @@ factor_proto = factor.prototype = {
      *
      * @private
      * @param {Array} replaced
-     * @param {Object} minmax
+     * @param {Object} limits
      *
      * @return Array
      */
@@ -542,11 +542,9 @@ factor_proto = factor.prototype = {
      */
     done: function(values, promise) {
         // calculate min and max values
-        var minmax = this.minmax(values);
-        // replace constants
-        var replaced = this.replacements(values, minmax);
+        var limits = this.preprocess(values);
         // normolizing values
-        var normalized = this.normalize(replaced, minmax);
+        var normalized = this.normalize(values, limits);
         // resolve promise with marks
         promise.resolve( normalized );
     },

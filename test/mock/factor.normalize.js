@@ -93,7 +93,7 @@ var mock_factor_normalize = {
         data: [-9, -5,    3, 3, -1],
         rslt: [-1, -0.55, 1, 1, -0.1]
     },
-    com3: {
+    com4: {
         spur: { min: 0, max: 5 },
         fine: { min: -1, max: -9 },
         data: [-9, -5,    0, 5, -1],

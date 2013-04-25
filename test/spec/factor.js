@@ -119,7 +119,7 @@ describe('factor', function() {
         describe('neutralValue', function() {
 
             it('should call `replacement` method', function() {
-                this.one.neutralValue(1, 0);
+                this.one.neutralValue(1);
 
                 expect( this.one.replacement.called ).to.be.ok();
             });
@@ -140,7 +140,7 @@ describe('factor', function() {
 
         describe('removeItem', function() {
             it('should call `replacement` method', function() {
-                this.one.minValue(1, 0);
+                this.one.removeItem(1);
 
                 expect( this.one.replacement.called ).to.be.ok();
             });
@@ -183,7 +183,7 @@ describe('factor', function() {
 
     });
 
-    describe.only('normalize', function() {
+    describe('normalize', function() {
 
         var mock_factor_normalize = require('../mock/factor.normalize.js');
 
@@ -233,9 +233,12 @@ describe('factor', function() {
     describe('exec', function() {
 
         beforeEach(function() {
+            var v1 = this.v1 = [1,2,3];
+            var v2 = this.v2 = [4,5,6];
+            var v3 = this.v3 = [7,8,9];
             this.one = factor({value: function() {}});
-            this.two = factor({valueAll: function(data, cond) { return [3, 4, 5]; }});
-            this.three = factor({valueAll: function(data, cond, done) { return [6, 7, 8]; }});
+            this.two = factor({valueAll: function(data, cond) { return v2; }});
+            this.three = factor({valueAll: function(data, cond, done) { return [1,2,3]; }});
 
             sinon.spy(this.one, 'done');
             sinon.spy(this.two, 'done');
@@ -244,23 +247,23 @@ describe('factor', function() {
         });
 
         it('should call `done` with precalculated values when `!isAll`', function() {
-            this.one._values = [1, 2, 3];
+            this.one._values = this.v1;
             this.one.exec();
 
-            expect( this.one.done.calledWith([1, 2, 3]) ).to.be.ok();
+            expect( this.one.done.calledWith(this.v1) ).to.be.ok();
         });
 
         it('should call `done` with result of `valueAll` when it gets 2 arguments', function() {
             this.two.exec();
 
-            expect( this.two.done.calledWith([3, 4, 5]) ).to.be.ok();
+            expect( this.two.done.calledWith(this.v2) ).to.be.ok();
         });
 
         it('should put `done` as an argument to `valueAll`, when it gets 3 arguments', function() {
             this.three.exec([1, 3], {});
-            this.three.valueAll.args[0][2]([3, 4]);
+            this.three.valueAll.args[0][2]( this.v3 );
 
-            expect( this.three.done.calledWith([3, 4]) ).to.be.ok();
+            expect( this.three.done.calledWith( this.v3 ) ).to.be.ok();
         });
 
         describe('done', function() {
