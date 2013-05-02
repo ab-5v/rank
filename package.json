@@ -1,6 +1,6 @@
 {
     "name": "rank",
-    "version": "0.3.0",
+    "version": "0.3.2",
     "description": "Factor based ranking system",
     "author": {
         "name": "Artur Burtsev",
@@ -22,6 +22,6 @@
     "scripts": {
         "test": "make"
     },
-    "main": "lib/rAnk",
+    "main": "lib/rank",
     "engines": { "node": ">= 0.8.0" }
 }
