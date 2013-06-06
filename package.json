@@ -17,7 +17,9 @@
         "request": "*",
         "expect.js": "*",
         "mocha": "*",
-        "sinon": "*"
+        "sinon": "*",
+        "mocha-lcov-reporter": "*",
+        "coveralls": "*"
     },
     "scripts": {
         "test": "make"

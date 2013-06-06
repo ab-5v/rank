@@ -13,14 +13,18 @@ node_modules: package.json
 test:
 	@NODE_ENV=test $(NPM_BIN)/mocha --reporter spec $(TESTS)
 
-test-cov: lib-cov
-	@COVERAGE=1 $(NPM_BIN)/mocha --reporter html-cov $(TESTS) > coverage.html || exit 0
-
 lib-cov: clean-cov
 	@jscoverage --encoding=utf8 --no-highlight lib lib-cov
 
+test-cov: lib-cov
+	@COVERAGE=1 $(NPM_BIN)/mocha --reporter html-cov $(TESTS) > coverage.html || exit 0
+
+test-coveralls: lib-cov
+	@COVERAGE=1 $(NPM_BIN)/mocha --reporter mocha-lcov-reporter $(TESTS) > coverage.lcov
+	@cd lib-cov; cat ../coverage.lcov | $(NPM_BIN)/coveralls
+
 clean-cov:
-	@rm -rf lib-cov coverage.html
+	@rm -rf lib-cov coverage.html coverage.lcov
 
 rAnk.js: $(CLIENT_FILES)
 	@echo 'Generating rAnk.js...'
