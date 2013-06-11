@@ -1,6 +1,6 @@
 var rAnk = require('../../lib/rAnk');
 
-var data = require('./data');
+var data = require('./data'), sorted;
 var factors = require('./factors');
 
 var list = function(data) {
@@ -17,10 +17,10 @@ factors.forEach(function(factor) { console.log(factor.name); });
 console.log('Data:' + list(data));
 
 // apply factors
-rAnk()
+sorted = rAnk()
     .factors(factors)
     .data(data)
-    .run(function(sorted) {
-        // list sorted data
-        console.log('Sorted:' + list(sorted.data));
-    });
+    .run();
+
+// list sorted data
+console.log('Sorted:' + list(sorted.data));
