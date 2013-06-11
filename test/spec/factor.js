@@ -1,8 +1,6 @@
 var sinon = require('sinon');
 var expect = require('expect.js');
 
-var pzero = require('pzero');
-
 var factor = process.env.COVERAGE ?
     require('../../lib-cov/factor.js') :
     require('../../lib/factor.js');
@@ -271,8 +269,6 @@ describe('factor', function() {
                 var set = mock_factor_done[key];
 
                 it('should return right value for set "' + key + '"', function() {
-                    var promise = pzero();
-
                     this.one.invert = set.invert;
                     this.one._replacements = set.rule;
                     expect( this.one.done(set.data) )

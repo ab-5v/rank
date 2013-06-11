@@ -1,6 +1,5 @@
 var sinon = require('sinon');
 var expect = require('expect.js');
-var pzero = require('pzero');
 
 var factor = require('../../lib/factor.js');
 
