@@ -20,15 +20,12 @@ rAnk()                      // creating rAnk instance
     .conditions({})             // you can add conditions to be passing in each factor
     .weights([w1, w2, w3])      // you can add weights for factors
     .data([a, b, c, d])         // you should add data
-    .run(function(result) {     // call run to execute factors
+    .run(); -> {}:              // call run to execute factors
         result.data;        // sorted data
         result.stat;        // statistics about factor's marks
         result.factor;      // array of factors ids
         result.weight;      // weights applied to your factors
-    });
 ```
-        
-You can also call `.run()` without any params, then it will return [pzero](https://github.com/artjock/pzero) promise, which will be resolved with `result` argument.
 
 #### factors
 
@@ -58,20 +55,17 @@ Each factor is described by factor's description, wich has the following propert
     value: function(item, conditons) {
         return new Date - item.ts;
     },
-    
+
     // is the same as value, except it gets all the data set,
     // you should iterate through it by yourself and replace
     // each item with factor's value.
-    // When you set "done" as argument,
-    // it means, that "valueAll" is asyncronous.
-    // So you should call "done" with values array, when valueAll is done
 
-    valueAll: function(data, conditions, done) {
+    valueAll: function(data, conditions) {
         return data.map(function(item) { return new Date - item.ts; });
     }
 }
 ```
-    
+
 You also may want to delete some item from the resulting dataset. You should use `removeItem()` for it:
 
 ```javascript
@@ -83,7 +77,7 @@ value: function(item) {
     }
 }
 ```
-    
+
 If value doesn't mean anything for given factor or it is to small, but you don't want to remove it from the resulting set, you can use `neutralValue()`:
 
 ```javascript
@@ -95,7 +89,7 @@ value: function(item) {
     }
 }
 ```
-    
+
 For both `removeItem()` and `neutralValue()` when you use it in `valueAll` function you should pass index of item as an argument:
 
 ```javascript
