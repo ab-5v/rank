@@ -10,9 +10,6 @@
         "type": "git",
         "url": "git://github.com/artjock/rank.git"
     },
-    "dependencies": {
-        "pzero": "0.3.0"
-    },
     "devDependencies": {
         "request": "*",
         "expect.js": "*",

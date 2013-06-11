@@ -67,11 +67,10 @@ describe('formula', function() {
 
     describe('exec', function() {
 
-        it('should return array of promises for all factors', function() {
-            var promises = this.formula.exec(this.data, {})
-                .filter(function(promise) { return pzero.is(promise); });
+        it('should return array of results for all factors', function() {
+            var results = this.formula.exec(this.data, {});
 
-            expect( promises.length ).to.eql(3);
+            expect( results.length ).to.eql(3);
         });
 
 

@@ -11,7 +11,7 @@ node_modules: package.json
 	npm install
 
 test:
-	@NODE_ENV=test $(NPM_BIN)/mocha --reporter dot $(TESTS)
+	@NODE_ENV=test $(NPM_BIN)/mocha --reporter dot --timeout 200 $(TESTS)
 
 lib-cov: clean-cov
 	@jscoverage --encoding=utf8 --no-highlight lib lib-cov

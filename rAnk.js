@@ -538,15 +538,12 @@ factor_proto = factor.prototype = {
      *
      * @private
      * @param {Array} values
-     * @param {pzero} promise
      */
-    done: function(values, promise) {
+    done: function(values) {
         // calculate min and max values
         var limits = this.preprocess(values);
         // normolizing values
-        var normalized = this.normalize(values, limits);
-        // resolve promise with marks
-        promise.resolve( normalized );
+        return this.normalize(values, limits);
     },
 
     /**
@@ -556,25 +553,13 @@ factor_proto = factor.prototype = {
      * @param {Array} data
      * @param {Object} cond
      *
-     * @type pzero
+     * @type Array
      */
     exec: function(data, cond) {
-        var that = this;
-        var promise = pzero();
+        var values = this.isAll ?
+            this.valueAll(data, cond) : this._values;
 
-        // if already done by value-one function
-        if (!this.isAll) {
-            this.done(this._values, promise);
-        // otherwise it's valueAll calls
-        } else if (this.valueAll.length > 2) {
-            // for async calls
-            this.valueAll(data, cond, function(values) { that.done(values, promise); });
-        } else {
-            // for sync calls
-            this.done( this.valueAll(data, cond), promise );
-        }
-
-        return promise;
+        return this.done(values);
     },
 
     /**
@@ -784,7 +769,7 @@ formula_proto = formula.prototype = {
         });
 
         // executes and compile all factors
-        return pzero.when( this.exec(data, cond) ).then( this.compile.bind(this) );
+        return this.compile( this.exec(data, cond) );
     }
 };
 
@@ -913,19 +898,17 @@ rAnk_proto = rAnk.prototype = {
      *
      * @param {Function} callback
      *
-     * @return pzero
+     * @return Object
      */
-    run: function(callback) {
-        // creating factors from description
-        var factors = this._descriptions.map(function(desc) { return factor(desc); });
-        // creating and runnig formula
-        var promise = formula(factors, this._weights).run(this._data, this._conditions);
+    run: function() {
 
-        if (callback) {
-            promise.then(callback);
-        } else {
-            return promise;
-        }
+        // creating factors from description
+        var factors = this._descriptions
+            .map(function(desc) { return factor(desc); });
+
+        // creating and runnig formula
+        return formula(factors, this._weights)
+            .run(this._data, this._conditions);
     }
 };
 rAnk_proto._init.prototype = rAnk_proto;

@@ -105,22 +105,16 @@ describe('rAnk', function() {
         Object.keys(mock_rank_load).forEach(function(key) {
             var set = mock_rank_load[key];
 
-            it('should sort data as it were sorted for set "' + key + '"', function(done) {
+            it('should sort data as it were sorted for set "' + key + '"', function() {
+                var loaded = rAnk().load(set.result).run();
 
-                rAnk().load(set.result).run(function(result) {
-                    expect( result.data ).to.eql( set.result.data );
-                    done()
-                });
-
+                expect( loaded.data ).to.eql( set.result.data );
             });
 
-            it('should sort data with new weight for set "' + key + '"', function(done) {
-                var r = rAnk().load(set.result);
+            it('should sort data with new weight for set "' + key + '"', function() {
+                var loaded = rAnk().load(set.result).weights(set.wght).run();
 
-                r.weights(set.wght).run(function(result) {
-                    expect( result.data ).to.eql( set.rslt );
-                    done();
-                });
+                expect( loaded.data ).to.eql( set.rslt );
             });
         });
 
@@ -130,22 +124,10 @@ describe('rAnk', function() {
 
         var mock_rank_run = require('../mock/rank.run.js');
 
-        it('should run callback when it passed', function(done) {
-            rAnk().factors({value: function() {}}).run(function() {
-                done();
-            });
-        });
-
-        it('should return and resolve promise, when no callback passed', function(done) {
-            rAnk().factors({value: function() {}}).run().then(function() {
-                done();
-            })
-        });
-
         Object.keys(mock_rank_run).forEach(function(key) {
             var set = mock_rank_run[key];
 
-            it('should calculate for set "' + key + '"', function(done) {
+            it('should calculate for set "' + key + '"', function() {
                 var rank = rAnk()
                     .data( set.data )
                     .factors( set.factors );
@@ -153,10 +135,7 @@ describe('rAnk', function() {
                 if (set.weights) { rank.weights( set.weights ); }
                 if (set.conditions) { rank.conditions(set.conditions); }
 
-                rank.run(function(result) {
-                    expect( result.data ).to.eql( set.result );
-                    done();
-                });
+                expect( rank.run().data ).to.eql( set.result );
             });
 
         });

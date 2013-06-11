@@ -62,16 +62,6 @@ var mock_rank_run = {
         result: [0, 1, 4]
     },
 
-    'combined factors with async': {
-        data: [1, 8, 16, 3],
-        factors: [
-            { valueAll: function(data) { return [1, 2, 2, 1]; } },
-            { valueAll: function(data, c, done) { setTimeout(function() { done([2, 2, 1, 7]); }, 20); } },
-            { value: function(val) { return val % 2; } }
-        ],
-        result: [3, 1, 8, 16]
-    },
-
     'combined factors on objects': {
         data: [{a: 1}, {a: 7}, {a: 8}],
         factors: [

@@ -259,13 +259,6 @@ describe('factor', function() {
             expect( this.two.done.calledWith(this.v2) ).to.be.ok();
         });
 
-        it('should put `done` as an argument to `valueAll`, when it gets 3 arguments', function() {
-            this.three.exec([1, 3], {});
-            this.three.valueAll.args[0][2]( this.v3 );
-
-            expect( this.three.done.calledWith( this.v3 ) ).to.be.ok();
-        });
-
         describe('done', function() {
 
             var mock_factor_done = require('../mock/factor.done.js');
@@ -277,19 +270,13 @@ describe('factor', function() {
             Object.keys(mock_factor_done).forEach(function(key) {
                 var set = mock_factor_done[key];
 
-                it('should resolve promise with right value for set "' + key + '"', function(done) {
+                it('should return right value for set "' + key + '"', function() {
                     var promise = pzero();
 
                     this.one.invert = set.invert;
                     this.one._replacements = set.rule;
-                    this.one.done( set.data, promise );
-
-                    promise.then(function(values) {
-
-                        expect(values).to.eql(set.rslt);
-                        done();
-
-                    });
+                    expect( this.one.done(set.data) )
+                        .to.eql( set.rslt );
                 });
             });
 
